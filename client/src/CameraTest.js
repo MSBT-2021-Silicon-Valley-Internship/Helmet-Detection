@@ -40,9 +40,10 @@ class CameraTest extends Component {
           .then((result) => result.json())
           .then((result) => {
             console.log(result);
-
+            console.log(String(image))
+            //test
             this.setState({
-              screenshotUrl: result.fileurl,
+              screenshotUrl: image,
               lastJsonResponse: result,
             });
           });

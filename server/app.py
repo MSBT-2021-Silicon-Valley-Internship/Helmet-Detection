@@ -68,7 +68,8 @@ def predict():
 
 
 
-
+#capture image api
+#https://webisfree.com/2017-08-21/python-flask-%EC%97%AC%EB%9F%AC%EA%B0%9C%EC%9D%98-%ED%8C%8C%EC%9D%BC-%EB%8F%99%EC%8B%9C-%EC%97%85%EB%A1%9C%EB%93%9C-%EB%B0%A9%EB%B2%95
 
 
 logging.basicConfig(level=logging.INFO)
