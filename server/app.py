@@ -19,26 +19,14 @@ logger = logging.getLogger('HELLO WORLD')
 def index():
     return "Helmet Detection", 200
 
+
+    
 @app.route('/images', methods=['POST'])
 def process():
     fileUpload()
-    updatedb()
-    predict()
-
-
-def predict():
-    """ Return JSON serializable output from the model """
-    payload = request.args
-    detector = PythonPredictor("")
-    return detector.predict(payload)
- 
-def updatedb():
-    pass
- 
-UPLOAD_FOLDER = '/usr/src/app'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-  
+    #predict()
+    #updatedb()
+    
 def fileUpload():
     target=os.path.join(UPLOAD_FOLDER,'imgfolder')
     if not os.path.isdir(target):
@@ -68,3 +56,17 @@ def fileUpload():
     response={'response': 'hello', 'fileurl': destination}
     #Json 형태로 
     return jsonify(response)
+
+def predict():
+    """ Return JSON serializable output from the model """
+    payload = request.args
+    detector = PythonPredictor("")
+    return detector.predict(payload)
+ 
+def updatedb():
+    pass
+ 
+UPLOAD_FOLDER = '/usr/src/app'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+  
