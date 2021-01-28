@@ -1,0 +1,16 @@
+Flask
+gevent
+psycopg2-binary
+sqlalchemy
+Cython
+matplotlib
+numpy
+opencv-python
+Pillow
+PyYAML
+scipy
+tensorboard
+torch
+torchvision
+tqdm
+requests
