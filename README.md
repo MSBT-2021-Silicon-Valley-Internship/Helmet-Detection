@@ -26,7 +26,8 @@ host = 34.64.109.77
 
 ```bash
 cd client
-npm build
+npm i
+npm run build
 ```
 
 ### 4. Docker-compose
