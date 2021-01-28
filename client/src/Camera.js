@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import Webcam from "react-webcam";
 import ReactJson from "react-json-view";
-import "./CameraTest.css";
 
-class CameraTest extends Component {
+class Camera extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      screenshotUrl: null,
-      lastJsonResponse: null,
+      screenshot: null,
+      result: null,
     };
   }
 
@@ -18,18 +17,19 @@ class CameraTest extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
+    this.setState({ screenshot: imageSrc })
     this.uploadImage(imageSrc);
   };
 
   uploadImage = (image) => {
-    const url = 'http://localhost:8000/upload-face';
+    const url = 'http://localhost:8000/images';
     const data = new FormData();
 
     fetch(image)
       .then(res => res.blob())
       .then(blob => {
         data.append('file', blob, 'face.jpg');
-        
+
         const options = {
           method: "post",
           contentType: false,
@@ -37,50 +37,48 @@ class CameraTest extends Component {
         };
 
         fetch(url, options)
-          .then((result) => result.json())
-          .then((result) => {
-            console.log(result);
-
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
             this.setState({
-              screenshotUrl: result.fileurl,
-              lastJsonResponse: result,
+              result: res,
             });
           });
       });
   };
 
   render() {
-    const { screenshotUrl, lastJsonResponse } = this.state;
+    const { screenshot, result } = this.state;
 
     return (
-      <div className="camera">
+      <div>
         <div>
           <Webcam
             audio={false}
             height={350}
             width={350}
             ref={this.setRef}
-            screenshotFormat="image/jpeg"
+            screenshotFormat="image/jpg"
           />
         </div>
-        <div class="site__box-link">
-          <a class="btn btn--width" onClick={() => this.capture()}>
+        <div>
+          <button onClick={() => this.capture()}>
             Capture
-          </a>
+          </button>
         </div>
 
         <div>
-          <h3>Last screenshot</h3>
-          {screenshotUrl && <img src={screenshotUrl} alt="last-screenshot" />}
+          <h3>Screenshot</h3>
+          {screenshot && <img src={screenshot} alt="screenshot" />}
         </div>
 
         <div>
-          <h3>Last JSON response</h3>
-          {lastJsonResponse && <ReactJson src={lastJsonResponse} />}
+          <h3>Result</h3>
+          {result && <ReactJson src={result} />}
         </div>
       </div>
     );
   }
 }
 
-export default CameraTest;
+export default Camera;
