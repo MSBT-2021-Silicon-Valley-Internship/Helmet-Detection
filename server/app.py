@@ -9,6 +9,8 @@ from flask_cors import CORS, cross_origin
 
 import os
 
+#from upload import uploader
+
 app = Flask(__name__)
 CORS(app)
 
@@ -26,7 +28,11 @@ def process():
     fileUpload()
     #predict()
     #updatedb()
-    
+ 
+UPLOAD_FOLDER = '/usr/src/app'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+  
 def fileUpload():
     target=os.path.join(UPLOAD_FOLDER,'imgfolder')
     if not os.path.isdir(target):
@@ -65,8 +71,6 @@ def predict():
  
 def updatedb():
     pass
- 
-UPLOAD_FOLDER = '/usr/src/app'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-  
+
+def uploadfile():
+    pass
