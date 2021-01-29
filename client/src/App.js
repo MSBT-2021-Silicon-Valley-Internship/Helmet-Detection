@@ -20,7 +20,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        KiduckPark, DongyoungKim, WoongsuKim, HyojinKim
+        GideokPark, DongyoungKim, WoongsuKim, HyojinKim
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -71,7 +71,7 @@ class App extends Component {
             <Toolbar>
               <CameraIcon className={useStyles.icon} />
               <Typography variant="h6" color="inherit" noWrap>
-                MSVT : Helmet Detection AI
+                MSBT : Helmet Detection
                 <br></br>
               </Typography>
             </Toolbar>
@@ -89,7 +89,7 @@ class App extends Component {
                   gutterBottom
                 >
                   <br></br>
-                  Helmet Detection AI
+                  Helmet Detection
                 </Typography>
                 <Typography
                   variant="h5"

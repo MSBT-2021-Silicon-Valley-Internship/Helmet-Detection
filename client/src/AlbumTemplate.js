@@ -169,8 +169,3 @@ export default function Album() {
     </React.Fragment>
   );
 }
-
-class App extends Component {
-
-}
-export default App;

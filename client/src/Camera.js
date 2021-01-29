@@ -22,7 +22,6 @@ class Camera extends Component {
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
     this.setState({ screenshot: imageSrc });
-    this.uploadImage(imageSrc);
   };
 
   uploadImage = (image) => {
@@ -64,10 +63,11 @@ class Camera extends Component {
       <center>
         <div>
           <div>
+            <h2>Camera</h2>
             <Webcam
               audio={false}
-              height={700}
-              width={700}
+              height={400}
+              width={400}
               ref={this.setRef}
               screenshotFormat="image/jpg"
             />
@@ -87,10 +87,8 @@ class Camera extends Component {
             </Grid>
           </div>
 
-        
-
           <div>
-            <h3>Screenshot</h3>
+            <h2>Screenshot</h2>
             {screenshot && <img src={screenshot} alt="screenshot" />}
           </div>
 
