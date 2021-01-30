@@ -1,205 +1,165 @@
-import React from 'react';
+import React, { Component } from "react";
+import Camera from "./Camera";
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import CameraIcon from "@material-ui/icons/PhotoCamera";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
 
-class AdditionApp extends React.Component {
-  /*
-    Component renders our main frontend and fetches http requests to our flask 
-    server. Requests are reverse proxied to backend api using Nginx.
-  */
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstNumber: 0,
-      secondNumber: 0,
-      answer: 0,
-      historical_data: null,
-    }
-  }
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://material-ui.com/">
+        KiduckPark, DongyoungKim, WoongsuKim, HyojinKim
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
-  onFirstNumChange(event) {
-    this.setState({ firstNumber: event.target.value })
-  }
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
 
-  onSecondNumChange(event) {
-    this.setState({ secondNumber: event.target.value })
-  }
-
-  insertCalculation(event, calculation) {
-    /*
-      Making a POST request via a fetch call to Flask API with numbers of a
-      calculation we want to insert into DB. Making fetch call to web server
-      IP with /api/insert_nums which will be reverse proxied via Nginx to the
-      Application (Flask) server.
-    */
-    event.preventDefault();
-
-    fetch('http://34.66.13.114:8080/api/insert_nums', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(calculation)
-    }
-    ).then((response) => {
-      if (response.status === 200) {
-        response.json().then(
-          data => console.log(data['Response'])
-        )
-      } else {
-        response.json().then(
-          data => console.log(data['Response'])
-        )
-      }
-    }).catch((error) => {
-      console.log('Error in inserting nums', error)
-    })
-  }
-
-  onCalculateValues(event) {
-    event.preventDefault();
-    let operands = { firstNum: this.state.firstNumber, secondNum: this.state.secondNumber, answer: null }
-
-    if (isNaN(parseInt(operands.firstNum)) || isNaN(parseInt(operands.secondNum))) {
-      this.setState({ answer: "Must enter valid number" })
-    } else {
-      let calculationAnswer = parseInt(operands.firstNum) + parseInt(operands.secondNum)
-
-      this.setState({ answer: calculationAnswer })
-
-      operands.answer = calculationAnswer
-
-      this.insertCalculation(event, operands)
-    }
-  }
-
-  showHistory(event) {
-    event.preventDefault()
-
-    this.setState({ historical_data: "loading data" })
-
-    this.getHistory(event)
-  }
-
-  closeHistory(event) {
-    event.preventDefault()
-
-    this.setState({ historical_data: null })
-  }
-
-  getHistory(event) {
-    /*
-        Making a GET request via a fetch call to Flask API to retrieve calculations history.
-    */
-
-    event.preventDefault()
-
-    fetch('http://34.66.13.114:8080/api/data', {
-      method: 'GET',
-      mode: 'cors'
-    }
-    ).then(response => {
-      if (response.status === 200) {
-        (response.json()).then((data) => {
-          this.setState({ historical_data: data['calculations'] })
-        })
-      } else {
-        (response.json()).then((data) => {
-          this.setState({ answer: data['error'] })
-          return null
-        })
-      }
-    }).catch((error) => {
-      console.log("Error in fetching calculations history.", error)
-    })
-  }
-
+const cards = [1, 2, 3];
+class App extends Component {
   render() {
     return (
-      <form method='GET'>
-        <div>
-          <FirstNumber onFirstChange={(event) => this.onFirstNumChange(event)} />
-        </div>
-        <div>
-          <p>+</p>
-        </div>
-        <div>
-          <SecondNumber onSecondChange={(event) => this.onSecondNumChange(event)} />
-        </div>
-        <div>
-          <Calculate onCalculateClick={(event) => this.onCalculateValues(event)} />
-        </div>
+      <div className="App">
+        <React.Fragment>
+          <CssBaseline />
+          <AppBar position="relative">
+            <Toolbar>
+              <CameraIcon className={useStyles.icon} />
+              <Typography variant="h6" color="inherit" noWrap>
+                MSVT : Helmet Detection AI
+                <br></br>
+              </Typography>
+            </Toolbar>
+          </AppBar>
 
-        <div>
-          <Answer answerNumber={this.state.answer} />
-        </div>
-        <div>
-          <ShowHistory
-            data={this.state.historical_data}
-            closeHistory={(event) => this.closeHistory(event)}
-            showHistory={(event) => this.showHistory(event)}
-            getHistory={(event) => this.getHistory(event)} />
-        </div>
-        <div>
-          <History data={this.state.historical_data} />
-        </div>
-      </form>
-    )
+          <main>
+            {/* Hero unit */}
+            <div className={useStyles.heroContent}>
+              <Container maxWidth="sm">
+                <Typography
+                  component="h1"
+                  variant="h2"
+                  align="center"
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  <br></br>
+                  Helmet Detection AI
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  잠깐! 헬멧 착용하셨나요?<br></br>
+                  헬멧을 착용한 상태에서 캡쳐 버튼을 누른 후 카메라를 5초 간
+                  응시해주세요.
+                </Typography>
+
+                <Camera></Camera>
+              </Container>
+            </div>
+            <Container className={useStyles.cardGrid} maxWidth="md">
+              {/* End hero unit */}
+              <Grid container spacing={4}>
+                {cards.map((card) => (
+                  <Grid item key={card} xs={12} sm={6} md={4}>
+                    <Card className={useStyles.card}>
+                      <CardMedia
+                        className={useStyles.cardMedia}
+                        image="https://source.unsplash.com/random"
+                        title="Image title"
+                      />
+                      <CardContent className={useStyles.cardContent}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          Heading
+                        </Typography>
+                        <Typography>
+                          This is a media card. You can use this section to
+                          describe the content.
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small" color="primary">
+                          View
+                        </Button>
+                        <Button size="small" color="primary">
+                          Edit
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Container>
+          </main>
+
+          {/* Footer */}
+          <footer className={useStyles.footer}>
+            <Typography variant="h6" align="center" gutterBottom>
+              Footer
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              align="center"
+              color="textSecondary"
+              component="p"
+            >
+              Something here to give the footer a purpose!
+            </Typography>
+            <Copyright />
+          </footer>
+          {/* End footer */}
+        </React.Fragment>
+      </div>
+    );
   }
 }
 
-function FirstNumber(props) {
-  return (
-    <input placeholder='0' onChange={props.onFirstChange}></input>
-  )
-}
-
-function SecondNumber(props) {
-  return (
-    <input placeholder='0' onChange={props.onSecondChange}></input>
-  )
-}
-
-function Calculate(props) {
-  return (
-    <button onClick={props.onCalculateClick}>Calculate!</button>
-  )
-}
-
-function Answer(props) {
-  return (
-    <p>{props.answerNumber}</p>
-  )
-}
-
-function ShowHistory(props) {
-  if (props.data !== null) {
-    return (
-      <button onClick={props.closeHistory}>Close history</button>
-    )
-  } else {
-    return (
-      <button onClick={props.showHistory}>Show history</button>
-    )
-  }
-}
-
-function History(props) {
-  if (props.data !== null && props.data !== "loading data") {
-    return props.data.map((nums) => {
-      let operands = nums[0].toString() + ' + ' + nums[1].toString() + ' = ' + nums[2].toString()
-      return (
-        <div>{operands}</div>
-      )
-    })
-  } else if (props.data === "loading data") {
-    return (
-      <div>loading history...</div>
-    )
-  } else {
-    return (
-      <div>History of calculations</div>
-    )
-  }
-}
-
-export default AdditionApp;
+export default App;

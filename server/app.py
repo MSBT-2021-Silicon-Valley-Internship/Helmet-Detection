@@ -9,7 +9,7 @@ from flask_cors import CORS, cross_origin
 
 import os
 
-from upload import uploader
+#from upload import uploader
 
 app = Flask(__name__)
 CORS(app)
@@ -21,21 +21,13 @@ logger = logging.getLogger('HELLO WORLD')
 def index():
     return "Helmet Detection", 200
 
+
+    
 @app.route('/images', methods=['POST'])
 def process():
     fileUpload()
-    updatedb()
-    predict()
-
-
-def predict():
-    """ Return JSON serializable output from the model """
-    payload = request.args
-    detector = PythonPredictor("")
-    return detector.predict(payload)
- 
-def updatedb():
-    pass
+    #predict()
+    #updatedb()
  
 UPLOAD_FOLDER = '/usr/src/app'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -68,7 +60,17 @@ def fileUpload():
     #session['uploadFilePath']=filename
     session['uploadFilePath']=destination
     response={'response': 'hello', 'fileurl': destination}
-    uploadfile()
-
     #Json 형태로 
     return jsonify(response)
+
+def predict():
+    """ Return JSON serializable output from the model """
+    payload = request.args
+    detector = PythonPredictor("")
+    return detector.predict(payload)
+ 
+def updatedb():
+    pass
+
+def uploadfile():
+    pass
