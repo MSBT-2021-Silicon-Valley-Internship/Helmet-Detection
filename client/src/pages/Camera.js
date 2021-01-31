@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import Webcam from "react-webcam";
 import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
@@ -126,15 +127,19 @@ class Camera extends Component {
                   />
                 )}
               </div>
+              <RouterLink to="/result">
               <Fab
                 variant="extended"
                 color="secondary"
                 aria-label="add"
                 className={useStyles.margin}
                 onClick={() => this.uploadImage()}
+                
               >
                 Upload
+                
               </Fab>
+              </RouterLink>
             </Paper>
           </Grid>
         </Container>
