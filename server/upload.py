@@ -1,25 +1,14 @@
-from google.cloud import storage
+from flask import Flask, flash, request, redirect, url_for, session, jsonify, render_template, send_file
 
+import io, os
 
-class uploader:
-
+class uploadImage:
     def __init__(self, config):
-        pass
+        self.filename = ''
 
-    def upload_blob(bucket_name, source_file_name, destination_blob_name):
-        """Uploads a file to the bucket."""
-        bucket_name = "gs://msbt_helmet/"
-        source_file_name = "/usr/src/app/imgfolder"
-        destination_blob_name = "storage-object-name"
+    def setfoldername(self, newFolderName):
+        self.filename = newFolderName
 
-        storage_client = storage.Client()
-        bucket = storage_client.bucket(bucket_name)
-        blob = bucket.blob(destination_blob_name)
+    def showimage(self):
+        return send_file(self.filename, as_attachment=True, mimetype='image/jpeg')
 
-        blob.upload_from_filename(source_file_name)
-
-        print(
-            "File {} uploaded to {}.".format(
-                source_file_name, destination_blob_name
-            )
-        )

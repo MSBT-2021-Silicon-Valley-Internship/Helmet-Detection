@@ -4,7 +4,7 @@ import ReactJson from "react-json-view";
 import { Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-
+import fetchStream from 'fetch-readablestream'
 
 class Camera extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class Camera extends Component {
     this.state = {
       screenshot: null,
       result: null,
+      image: null,
     };
   }
 
@@ -22,7 +23,6 @@ class Camera extends Component {
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
     this.setState({ screenshot: imageSrc });
-    this.uploadImage(imageSrc);
   };
 
   uploadImage = (image) => {
@@ -36,7 +36,6 @@ class Camera extends Component {
 
         const options = {
           method: "post",
-          contentType: false,
           body: data,
         };
 
@@ -45,14 +44,47 @@ class Camera extends Component {
           .then((res) => {
             console.log(res);
             this.setState({
-              result: res,
+              result : res,
             });
           });
       });
+      
   };
 
+  showImage = () => {
+    const url = "http://localhost:8000/web";
+
+    fetch(url)
+      //.then(res => {
+      .then((res) => res.body)
+      //.then(body => {
+      .then(body => body.blob)
+      .then(blob => {
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function(){
+          var base64data = reader.result
+          console.log(base64data)  
+          this.setState({
+            image : base64data,
+          });
+        }
+        /*
+        console.log(res)
+        console.log(res.type)
+        console.log(res.json())
+
+        console.log(res.body)
+        console.log(res.body.type)
+        console.log(res.body.blob)
+        console.log(res.body.blob.type)
+        */
+      });
+   
+  }
+
   render() {
-    const { screenshot, result } = this.state;
+    const { screenshot, result, image } = this.state;
 
     const useStyles = makeStyles((theme) => ({
       heroButtons: {
@@ -64,10 +96,11 @@ class Camera extends Component {
       <center>
         <div>
           <div>
+            <h2>Camera</h2>
             <Webcam
               audio={false}
-              height={700}
-              width={700}
+              height={400}
+              width={400}
               ref={this.setRef}
               screenshotFormat="image/jpg"
             />
@@ -84,19 +117,28 @@ class Camera extends Component {
                   Upload
                 </Button>
               </Grid>
+              <Grid item>
+                <Button onClick={() => this.showImage()} variant="outlined" color="primary">
+                  show
+                </Button>
+              </Grid>
             </Grid>
           </div>
 
-        
-
           <div>
-            <h3>Screenshot</h3>
+            <h2>Screenshot</h2>
             {screenshot && <img src={screenshot} alt="screenshot" />}
           </div>
 
           <div>
-            <h3>Result</h3>
+            <h3>Result?</h3>
             {result && <ReactJson src={result} />}
+            
+          </div>
+          <div>
+            <h3>show image from flask</h3>
+            {image && <img src={image} />}
+            
           </div>
         </div>
       </center>
