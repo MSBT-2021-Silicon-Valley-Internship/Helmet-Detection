@@ -1,6 +1,6 @@
 import React from "react";
-import { Link as RouterLink} from "react-router-dom";
-import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from "react-router-dom";
+import Link from "@material-ui/core/Link";
 
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   return (
     <div>
-      <main>   
+      <main>
         <div className={useStyles.heroContent}>
           <Container maxWidth="sm">
             <Typography
@@ -40,8 +40,8 @@ const Home = () => {
               <b>카메라를 5초 간 응시</b>해주세요.
             </Typography>
             <Link component={RouterLink} to="/webcam">
-                Start!
-              </Link>
+              Start!
+            </Link>
           </Container>
         </div>
       </main>
