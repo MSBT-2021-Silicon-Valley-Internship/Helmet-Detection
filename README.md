@@ -1,14 +1,16 @@
 ### DB
 
-- step 1 Environment setting
+- step 1 </br>
+Environment setting
 
-- step 2 video reference
-![title](https://www.youtube.com/watch?v=Z9txOWCWMwA)
+- step 2 </br>
+video reference
+gcp, postgreSQL setting(<https://www.youtube.com/watch?v=Z9txOWCWMwA>)
 
-- step 3
+- step 3 </br>
 docker-compose up
 
-- step 4
+- step 4 </br>
 connect to http://localhost:8080 & capture, upload
 
 # MSBT
