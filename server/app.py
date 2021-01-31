@@ -1,5 +1,5 @@
 from flask import Flask, flash, request, redirect, url_for, session, jsonify
-from db_connection import insert_helmet, delete_helmet, get_helmet
+from db_connection import insert_helmet, delete_helmet, get_helmet, update_helmet
 from syndicai import PythonPredictor
 from werkzeug.utils import secure_filename
 import logging
@@ -20,10 +20,8 @@ def index():
 @app.route('/images', methods=['POST'])
 def process():
     fileUpload()
+    # predict()
     updatedb()
-    predict()
-    result=data(1)
-    print(result)
     
 
 @app.route('/images', methods=['GET'])
@@ -51,8 +49,9 @@ def predict():
     detector = PythonPredictor("")
     return detector.predict(payload)
 
-def updatedb():
-    pass
+# def updatedb():
+#     update_helmet()
+#     delete_helmet()
 
 # UPLOAD_FOLDER = '/usr/src/app'
 UPLOAD_FOLDER = 'input/'
@@ -93,6 +92,8 @@ def fileUpload():
     response={'response': 'hello', 'fileurl': destination}
     global id
     insert_helmet(id, filename, nowDatetime, False)
+    update_helmet()
+    delete_helmet()
     id+=1
     #Json 형태로
     return jsonify(response)
