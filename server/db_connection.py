@@ -27,10 +27,10 @@ def connection_uri():
     config = read_config()
 
     URI = 'postgresql+psycopg2://{}:{}@/{}?host={}'.format(
-        config['history_database']['user'],
-        config['history_database']['password'],
-        config['history_database']['dbname'],
-        config['history_database']['host']
+        config['users_images_database']['user'],
+        config['users_images_database']['password'],
+        config['users_images_database']['dbname'],
+        config['users_images_database']['host']
     )
 
     return URI
@@ -38,7 +38,7 @@ def connection_uri():
 def create_helmet_table():
     '''
         Function used to create an SQL table for inserting our
-        calculations into. We are using SQLAlchemy's DB engine
+        helmet into. We are using SQLAlchemy's DB engine
         for executing our created query.
     :return:
     '''
@@ -49,10 +49,11 @@ def create_helmet_table():
 
     CREATE_TABLE_QUERY = """
                     CREATE TABLE IF NOT EXISTS {} (
-                        first_operand INT NOT NULL,
-                        second_operand INT NOT NULL,
-                        answer INT NOT NULL,
-                        PRIMARY KEY(first_operand, second_operand)
+                        image_id INT NOT NULL,
+                        image_name VARCHAR(100) NOT NULL,
+                        image_date TIMESTAMPTZ NOT NULL,
+                        image_result BOOLEAN NOT NULL,
+                        PRIMARY KEY(image_id)
                     )""".format(TABLE_NAME)
     
     try:
@@ -69,7 +70,7 @@ def create_helmet_table():
         my_connection.close()
         engine.dispose()
 
-def insert_calculation(firstNum, secondNum, answer):
+def insert_helmet(image_id, image_name, image_date, image_result):
     '''
     Function used to insert our calculation into the DB.
     :param firstNum: first operand of calculation
@@ -83,57 +84,72 @@ def insert_calculation(firstNum, secondNum, answer):
     try:
         engine = create_engine(URI, echo=True)
         my_connection = engine.connect()
-
-        my_connection.execute('INSERT INTO calculations VALUES (%s, %s, %s)', (firstNum, secondNum, answer))
+        create_helmet_table()
+        my_connection.execute('INSERT INTO helmet (image_id, image_name, image_date, image_result)'
+                'VALUES (?, ?, ?, ?)', (image_id, image_name, image_date, image_result))
         return "Insertion successful"
 
     except exc.SQLAlchemyError as err:
-        return 'Error occured inserting into table {}. Exception: {}'.format("calculations", err)
+        return 'Error occured inserting into table {}. Exception: {}'.format("helmet", err)
 
     finally:
         my_connection.close()
         engine.dispose()
 
-def get_calculations():
+def connection():
+    URI = connection_uri()
+    my_connection = None
+
+    try:
+        engine = create_engine(URI, echo=False)
+        my_connection = engine.connect()
+        create_helmet_table()
+        return "connection successful"
+    except exc.SQLAlchemyError as err:
+        return 'connection Error {}. Exception: {}'.format("helmet", err)
+
+    finally:
+        my_connection.close()
+        engine.dispose()
+
+def get_helmet(id):
     '''
-    Function used to fetch calculations history from PSQL DB.
-    :return: hashmap with DB calculations values
+    Function used to fetch helmet result from PSQL DB.
+    :return: hashmap with DB helmet values
     '''
 
     URI = connection_uri()
     my_connection = None
-    
-    GET_CALCULATIONS_QUERY = """
-                                SELECT * FROM calculations
+    #helmet에 있는 데이터 가져오기
+    GET_HELMET_QUERY = """
+                                SELECT count(image_result) FROM helmet LIMIT 1
                              """
 
     try:
         engine = create_engine(URI, echo=False)
         my_connection = engine.connect()
 
-        calculations = my_connection.execute(GET_CALCULATIONS_QUERY)
+        helmet = my_connection.execute(GET_HELMET_QUERY)
 
-        calculations_history = {}
+        helmet_history = {}
 
         i = 1
-        for row in calculations:
-            calculations_history[i] = (row['first_operand'], row['second_operand'], row['answer'])
+        for row in helmet:
+            helmet_history[i] = (row['image_id'], row['image_result']) #id, result만 가져와서 리스트에 넣기
             i += 1
 
-        return calculations_history
+        return helmet_history[id]
 
     except exc.SQLAlchemyError as err:
-        return 'Error fetching from table {}. Exception: {}'.format("calculations", err)
+        return 'Error fetching from table {}. Exception: {}'.format("helmet", err)
 
     finally:
         my_connection.close()
         engine.dispose()
 
-def delete_calculation(firstNum, secondNum):
+def delete_helmet():
     '''
-    Function used to delete calculations from calculations DB, based on operands.
-    :param firstNum: first operand
-    :param secondNum: second operand
+    Function used to delete helmet from helmet DB, based on operands.
     :return: string message on whether deleted successfully or not
     '''
 
@@ -143,14 +159,15 @@ def delete_calculation(firstNum, secondNum):
     try:
         engine = create_engine(URI, echo=False)
         my_connection = engine.connect()
-        my_connection.execute('DELETE from calculations WHERE first_operand = {} AND second_operand = {}'.format(firstNum, secondNum))
-        return "connection successful"
+        my_connection.execute('DELETE from helmet') #모든 데이터 삭제
+        return "Deletion successful"
     except exc.SQLAlchemyError as err:
-        return 'Error {}. Exception: {}'.format("calculations", err)
+        return 'Error deleting data from table {}. Exception: {}'.format("helmet", err)
 
     finally:
         my_connection.close()
         engine.dispose()
 
+
 if __name__=="__main__":
-    delete_calculation(12345, 12345)
+    connection()

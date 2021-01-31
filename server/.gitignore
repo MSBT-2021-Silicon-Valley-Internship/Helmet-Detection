@@ -5,3 +5,10 @@ config.ini
 
 # pycache
 __pycache__
+
+# virtual env
+venv
+
+# local file
+input
+output

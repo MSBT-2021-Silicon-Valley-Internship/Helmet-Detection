@@ -1,3 +1,16 @@
+### DB
+
+- step 1 Environment setting
+
+- step 2 video reference
+![title](https://www.youtube.com/watch?v=Z9txOWCWMwA)
+
+- step 3
+docker-compose up
+
+- step 4
+connect to http://localhost:8080 & capture, upload
+
 # MSBT
 
 This is a web service that recognizes wearing a helmet. </br>
