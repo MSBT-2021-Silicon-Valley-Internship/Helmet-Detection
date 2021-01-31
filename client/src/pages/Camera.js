@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Webcam from "react-webcam";
 import ReactJson from "react-json-view";
-import { Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -110,16 +109,16 @@ class Camera extends Component {
               >
                 Capture
               </Fab>
-              
             </Paper>
-        </Grid>
-        <br></br><br></br>
+          </Grid>
+          <br></br>
+          <br></br>
           <Grid item md="auto">
             <Paper className={useStyles.paper}>
               <div>
                 {screenshot && (
                   <img
-                  padding={10}
+                    padding={10}
                     src={screenshot}
                     alt="screenshot"
                     height={400}
@@ -136,7 +135,6 @@ class Camera extends Component {
               >
                 Upload
               </Fab>
-              
             </Paper>
           </Grid>
         </Container>

@@ -1,14 +1,19 @@
 import React, { Component } from "react";
-import Camera from "./Camera";
+import { Route } from "react-router-dom";
+import Camera from "../pages/Camera";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
 import Toolbar from "@material-ui/core/Toolbar";
 import CameraIcon from "@material-ui/icons/PhotoCamera";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
+
+import Home from "../pages/Home";
+import Webcam from "../pages/Webcam";
+import Result from "../pages/Result";
+import Success from "../pages/Success";
 
 function Copyright() {
   return (
@@ -41,6 +46,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <div>
+          <Route exact path="/" component={Home} />
+          <Route path="/webcam" component={Webcam} />
+          <Route path="/result" component={Result} />
+          <Route path="/success" component={Success} />
+        </div>
         <React.Fragment>
           <CssBaseline />
           <AppBar position="relative">
@@ -74,7 +85,7 @@ class App extends Component {
                   paragraph
                 >
                   <h2>잠깐!</h2> 헬멧 착용하셨나요?<br></br>
-                  헬멧을 착용한 상태에서 <b>캡쳐 버튼</b>을 누른 후<br></br>
+                  헬멧을 착용한 상태에서 <b></b>캡쳐 버튼을 누른 후<br></br>
                   <b>카메라를 5초 간 응시</b>해주세요.
                 </Typography>
 
