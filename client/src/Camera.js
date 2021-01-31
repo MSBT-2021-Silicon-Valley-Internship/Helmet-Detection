@@ -4,7 +4,9 @@ import ReactJson from "react-json-view";
 import { Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-
+import Container from "@material-ui/core/Container";
+import Paper from "@material-ui/core/Paper";
+import Fab from "@material-ui/core/Fab";
 
 class Camera extends Component {
   constructor(props) {
@@ -57,43 +59,91 @@ class Camera extends Component {
       heroButtons: {
         marginTop: theme.spacing(4),
       },
+      cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
+      },
+      card: {
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      },
+      cardMedia: {
+        paddingTop: "56.25%", // 16:9
+      },
+      cardContent: {
+        flexGrow: 1,
+      },
+      root: {
+        flexGrow: 1,
+      },
+      paper: {
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+      },
+      margin: {
+        margin: theme.spacing(1),
+      },
     }));
 
     return (
       <center>
+        <Container maxWidth="sm" className={useStyles.root}>
+          <Grid item md={12}>
+            <Paper className={useStyles.paper}>
+              <div>
+                <Webcam
+                  audio={false}
+                  height={400}
+                  width={400}
+                  ref={this.setRef}
+                  screenshotFormat="image/jpg"
+                />
+              </div>
+              <Fab
+                variant="extended"
+                color="primary"
+                aria-label="add"
+                className={useStyles.margin}
+                onClick={() => this.capture()}
+              >
+                Capture
+              </Fab>
+              
+            </Paper>
+        </Grid>
+        <br></br><br></br>
+          <Grid item md="auto">
+            <Paper className={useStyles.paper}>
+              <div>
+                {screenshot && (
+                  <img
+                  padding={10}
+                    src={screenshot}
+                    alt="screenshot"
+                    height={400}
+                    width={400}
+                  />
+                )}
+              </div>
+              <Fab
+                variant="extended"
+                color="secondary"
+                aria-label="add"
+                className={useStyles.margin}
+                onClick={() => this.uploadImage()}
+              >
+                Upload
+              </Fab>
+              
+            </Paper>
+          </Grid>
+        </Container>
+
         <div>
           <div>
-            <h2>Camera</h2>
-            <Webcam
-              audio={false}
-              height={400}
-              width={400}
-              ref={this.setRef}
-              screenshotFormat="image/jpg"
-            />
-          </div>
-          <div className={useStyles.heroButtons}>
-            <Grid container spacing={2} justify="center">
-              <Grid item>
-                <Button onClick={() => this.capture()} variant="contained" color="primary">
-                  Capture
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button onClick={() => this.uploadImage()} variant="outlined" color="primary">
-                  Upload
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
-
-          <div>
-            <h2>Screenshot</h2>
-            {screenshot && <img src={screenshot} alt="screenshot" />}
-          </div>
-
-          <div>
-            <h3>Result</h3>
+            <h2>Result</h2>
             {result && <ReactJson src={result} />}
           </div>
         </div>
