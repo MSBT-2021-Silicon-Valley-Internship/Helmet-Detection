@@ -1,0 +1,10 @@
+.flex-match{
+    display: flex;
+    flex-direction: row;
+    display: inline;;
+}
+.paper-match{
+    display: flex;
+    flex-direction: row;
+    display: inline;
+}

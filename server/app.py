@@ -10,8 +10,12 @@ import os, io
 
 #from upload import uploader
 
+from flask import Flask, request, session, jsonify
+from werkzeug.utils import secure_filename
+
 app = Flask(__name__)
 logger = logging.getLogger('HELLO WORLD')
+
 
 @app.route('/')
 def index():
@@ -44,7 +48,7 @@ def fileUpload():
     now = datetime.datetime.now() # 2015-04-19 12:11:32.669083
     nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')# 2015-04-19 12:11:32
 
-    #attaching date to name
+    # attaching date to name
     file = request.files['file']
     print(file)
     file.save(file)
@@ -54,7 +58,7 @@ def fileUpload():
     print(filename)
     file.save(filename)
 
-    destination="/".join([target, filename])
+    destination = "/".join([target, filename])
     print(destination)
     file.save(destination)
     #upload foldername save

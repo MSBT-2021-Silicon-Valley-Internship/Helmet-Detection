@@ -158,7 +158,7 @@ class Camera extends Component {
                     padding={10}
                     src={screenshot}
                     alt="screenshot"
-                    height={400}
+                    height={300}
                     width={400}
                   />
                 )}
