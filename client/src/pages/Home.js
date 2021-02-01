@@ -39,7 +39,7 @@ const Home = () => {
               헬멧을 착용한 상태에서 <b></b>캡쳐 버튼을 누른 후<br></br>
               <b>카메라를 5초 간 응시</b>해주세요.
             </Typography>
-            <Link component={RouterLink} to="/webcam">
+            <Link component={RouterLink} to="/Camera">
               Start!
             </Link>
           </Container>
