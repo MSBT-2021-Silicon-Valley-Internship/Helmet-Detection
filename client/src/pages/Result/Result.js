@@ -56,10 +56,26 @@ class Result extends Component {
         },
       },
     }));
+
+    //fetch get json example
     const testChange = () => {
       this.setState({isSuccess:!this.state.isSuccess});
     }
+    //json result
+    const jsonInput = () => { 
+      const url = "http://localhost:8000/web";
+      fetch(url)
+      .then(res => res.json())
+      
+      .then(res => res.body)
+      .then(body => body.confidence)
+      .then(confidence => {
 
+      })  
+        
+
+    
+    }
     return (
       <Container
         id="result-page"
@@ -84,8 +100,8 @@ class Result extends Component {
           <Link to="/">
             <strong>Home으로 돌아가기</strong>
           </Link>
-        </Alert>):(<Alert className={useStyles.alert} severity="fail">
-          <AlertTitle>Success</AlertTitle>
+        </Alert>):(<Alert className={useStyles.alert} severity="error">
+          <AlertTitle>FAIL</AlertTitle>
           헬멧 인식에 실패했습니다! —{" "}
           <Link to="/">
             <strong>Home으로 돌아가기</strong>
