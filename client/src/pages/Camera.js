@@ -56,40 +56,24 @@ class Camera extends Component {
     const { screenshot, result } = this.state;
 
     const useStyles = makeStyles((theme) => ({
-      heroButtons: {
-        marginTop: theme.spacing(4),
-      },
-      cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
-      },
-      card: {
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-      },
-      cardMedia: {
-        paddingTop: "56.25%", // 16:9
-      },
-      cardContent: {
-        flexGrow: 1,
-      },
       root: {
         flexGrow: 1,
       },
       paper: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(10),
+        margin: theme.spacing(5),
         textAlign: "center",
         color: theme.palette.text.secondary,
       },
       margin: {
         margin: theme.spacing(1),
+        padding: theme.spacing(1)
       },
     }));
 
     return (
       <center>
-        <Container maxWidth="sm" className={useStyles.root}>
+        <Container maxWidth="sm" maxHeight="sm" className={useStyles.root}>
           <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
@@ -117,6 +101,12 @@ class Camera extends Component {
           <Grid item md="auto">
             <Paper className={useStyles.paper}>
               <div>
+                <img
+                  src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
+                  height={400}
+                  width={400}
+                  alt="placeholder"
+                ></img>
                 {screenshot && (
                   <img
                     padding={10}
@@ -128,17 +118,15 @@ class Camera extends Component {
                 )}
               </div>
               <RouterLink to="/result">
-              <Fab
-                variant="extended"
-                color="secondary"
-                aria-label="add"
-                className={useStyles.margin}
-                onClick={() => this.uploadImage()}
-                
-              >
-                Upload
-                
-              </Fab>
+                <Fab
+                  variant="extended"
+                  color="secondary"
+                  aria-label="add"
+                  className={useStyles.margin}
+                  onClick={() => this.uploadImage()}
+                >
+                  Upload
+                </Fab>
               </RouterLink>
             </Paper>
           </Grid>
