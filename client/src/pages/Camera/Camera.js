@@ -19,7 +19,9 @@ class Camera extends Component {
     this.state = {
       screenshot: null,
       result: null,
-      open: true,
+      image: null,
+      image2: null,
+      changePlaceholder: false,
     };
   }
 
@@ -29,21 +31,22 @@ class Camera extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-    this.setState({ screenshot: imageSrc });
+    this.setState({ screenshot: imageSrc, changePlaceholder: true });
   };
 
   uploadImage = (image) => {
     const url = "http://localhost:8000/images";
     const data = new FormData();
 
-    fetch(image)
+    const imageSrc = this.webcam.getScreenshot();
+
+    fetch(imageSrc)
       .then((res) => res.blob())
       .then((blob) => {
-        data.append("file", blob, "face.jpg");
+        data.append("file", blob, "face3.jpg");
 
         const options = {
           method: "post",
-          contentType: false,
           body: data,
         };
 
@@ -58,12 +61,41 @@ class Camera extends Component {
       });
   };
 
+  showImage = () => {
+    const url = "http://localhost:8000/web";
+
+    fetch(url)
+      .then((response) => {
+        console.log(response);
+        return response.blob();
+      })
+      .then((blob) => {
+        console.log(blob);
+        var reader = new FileReader();
+
+        reader.onload = function () {
+          var base64data = reader.result;
+          console.log(base64data);
+        };
+        reader.readAsDataURL(blob);
+        this.setState({
+          image: reader,
+          image2: reader.result,
+        });
+        console.log(reader);
+        console.log(reader.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   toScreenshot = () => {
     this.setState((state) => ({ open: !state.open }));
   };
 
   render() {
-    const { screenshot, result } = this.state;
+    const { screenshot, result, image, image2, changePlaceholder } = this.state;
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -84,7 +116,7 @@ class Camera extends Component {
     return (
       <center>
         <Container maxWidth="sm" maxHeight="sm" className={useStyles.root}>
-          <h2>Capture & Upload</h2>
+          <h2>Capture & V</h2>
           <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
@@ -112,21 +144,26 @@ class Camera extends Component {
           <Grid item md="auto">
             <Paper className={useStyles.paper}>
               <div>
-                <img
-                  src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-                  height={400}
-                  width={400}
-                  alt="placeholder"
-                ></img>
-                {screenshot && (
+                {changePlaceholder ? (
+                  <div>
+                    {screenshot && (
+                      <img
+                        onClick={toScreenshot}
+                        padding={10}
+                        src={screenshot}
+                        alt="screenshot"
+                        height={400}
+                        width={400}
+                      />
+                    )}
+                  </div>
+                ) : (
                   <img
-                    onClick={toScreenshot}
-                    padding={10}
-                    src={screenshot}
-                    alt="screenshot"
+                    src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
                     height={400}
                     width={400}
-                  />
+                    alt="placeholder"
+                  ></img>
                 )}
               </div>
               <RouterLink to="/result">
