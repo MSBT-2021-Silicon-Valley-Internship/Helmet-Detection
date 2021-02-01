@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Webcam from "react-webcam";
-import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -138,13 +137,6 @@ class Camera extends Component {
             </Paper>
           </Grid>
         </Container>
-
-        <div>
-          <div>
-            <h2>Result</h2>
-            {result && <ReactJson src={result} />}
-          </div>
-        </div>
       </center>
     );
   }
