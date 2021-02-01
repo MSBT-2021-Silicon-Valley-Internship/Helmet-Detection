@@ -5,3 +5,7 @@ config.ini
 
 # pycache
 __pycache__
+
+# data
+input
+output

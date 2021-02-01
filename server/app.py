@@ -1,20 +1,18 @@
-from flask import Flask, flash, request, redirect, url_for, session, jsonify
-from storage import insert_calculation, get_calculations
-from syndicai import PythonPredictor
-from werkzeug.utils import secure_filename
-import logging
 import datetime
-
-from flask_cors import CORS, cross_origin
-
+import logging
 import os
+
+from flask import Flask, request, session, jsonify
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 logger = logging.getLogger('HELLO WORLD')
 
+
 @app.route('/')
 def index():
     return "Helmet Detection", 200
+
 
 @app.route('/images', methods=['POST'])
 def process():
@@ -28,27 +26,30 @@ def predict():
     payload = request.args
     detector = PythonPredictor("")
     return detector.predict(payload)
- 
+
+
 def updatedb():
     pass
- 
+
+
 UPLOAD_FOLDER = '/usr/src/app'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-  
+
+
 def fileUpload():
-    target=os.path.join(UPLOAD_FOLDER,'imgfolder')
+    target = os.path.join(UPLOAD_FOLDER, 'imgfolder')
     if not os.path.isdir(target):
         os.mkdir(target)
     logger.info("welcome to upload`")
 
-    #SAVE NAME : DATE
-    now = datetime.datetime.now() # 2015-04-19 12:11:32.669083
-    nowDate = now.strftime('%Y-%m-%d')# 2015-04-19
-    nowTime = now.strftime('%H:%M:%S')# 12:11:32
-    nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')# 2015-04-19 12:11:32
+    # SAVE NAME : DATE
+    now = datetime.datetime.now()  # 2015-04-19 12:11:32.669083
+    nowDate = now.strftime('%Y-%m-%d')  # 2015-04-19
+    nowTime = now.strftime('%H:%M:%S')  # 12:11:32
+    nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')  # 2015-04-19 12:11:32
 
-    #attaching date to name
+    # attaching date to name
     file = request.files['file']
     print(file)
     file.save(file)
@@ -57,11 +58,11 @@ def fileUpload():
     print(filename)
     file.save(filename)
 
-    destination="/".join([target, filename])
+    destination = "/".join([target, filename])
     print(destination)
     file.save(destination)
-    #session['uploadFilePath']=filename
-    session['uploadFilePath']=destination
-    response={'response': 'hello', 'fileurl': destination}
-    #Json 형태로 
+    # session['uploadFilePath']=filename
+    session['uploadFilePath'] = destination
+    response = {'response': 'hello', 'fileurl': destination}
+    # Json 형태로
     return jsonify(response)
