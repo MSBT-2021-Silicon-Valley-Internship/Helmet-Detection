@@ -21,7 +21,7 @@ class Camera extends Component {
       result: null,
       image: null,
       image2: null,
-      changePlaceholder:false,
+      changePlaceholder: false,
     };
   }
 
@@ -31,7 +31,7 @@ class Camera extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-    this.setState({ screenshot: imageSrc , changePlaceholder:true, });
+    this.setState({ screenshot: imageSrc, changePlaceholder: true });
   };
 
   uploadImage = (image) => {
@@ -39,7 +39,6 @@ class Camera extends Component {
     const data = new FormData();
 
     const imageSrc = this.webcam.getScreenshot();
-    
     fetch(imageSrc)
       .then((res) => res.blob())
       .then((blob) => {
@@ -66,39 +65,37 @@ class Camera extends Component {
     const url = "http://localhost:8000/web";
 
     fetch(url)
-    .then((response) => {
-      console.log(response)
-      return response.blob();
-    })
-    .then((blob)=>{
-        console.log(blob)
+      .then((response) => {
+        console.log(response);
+        return response.blob();
+      })
+      .then((blob) => {
+        console.log(blob);
         var reader = new FileReader();
-        
-        reader.onload = function() {
-            var base64data = reader.result;                
-            console.log(base64data);
-        }
-        reader.readAsDataURL(blob); 
-        this.setState({
-          image : reader,
-          image2 : reader.result
-        });
-        console.log(reader)
-        console.log(reader.result)
 
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-   
-  }
+        reader.onload = function () {
+          var base64data = reader.result;
+          console.log(base64data);
+        };
+        reader.readAsDataURL(blob);
+        this.setState({
+          image: reader,
+          image2: reader.result,
+        });
+        console.log(reader);
+        console.log(reader.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   toScreenshot = () => {
     this.setState(state => ({ open: !state.open}))
   };
 
   render() {
-    const { screenshot, result, image, image2 , changePlaceholder} = this.state;
+    const { screenshot, result, image, image2, changePlaceholder } = this.state;
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -118,11 +115,14 @@ class Camera extends Component {
 
     return (
       <center>
-        <Container maxWidth="sm" maxHeight="sm" className={useStyles.root} className='flex-match'>
-          <h2>
-            Capture & V
-          </h2>
-          <div className = 'paper-match'>
+        <Container
+          id="camera-page"
+          maxWidth="sm"
+          maxHeight="sm"
+          className={useStyles.root}
+        >
+          <h1>Capture & Upload</h1>
+          <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
                 <Webcam
@@ -143,6 +143,10 @@ class Camera extends Component {
                 Capture
               </Fab>
             </Paper>
+          </Grid>
+                <br></br>
+                <br></br>
+          <Grid item md="auto">
             <Paper className={useStyles.paper}>
               <div>
                 <br></br>
@@ -158,7 +162,9 @@ class Camera extends Component {
                     alt="screenshot"
                     height={300}
                     width={400}
-                  />
+                    margin={50}
+                    alt="placeholder"
+                  ></img>
                 )}
                 </div> :              
                 <img
@@ -185,7 +191,7 @@ class Camera extends Component {
                 </Fab>
               </RouterLink>
             </Paper>
-            </div>
+          </Grid>
         </Container>
 
         <div>

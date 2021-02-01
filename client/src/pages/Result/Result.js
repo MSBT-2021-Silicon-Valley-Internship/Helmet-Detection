@@ -1,72 +1,24 @@
 import React, { Component } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import Fab from "@material-ui/core/Fab";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-
-export function AlertDialog({name}) {
-  
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <img
-        src={name}
-        height={300}
-        width={400}
-        alt="placeholder"
-        onClick={handleClickOpen}
-      ></img>
-
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Helmet Detection AI"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            헬멧이 인식되었습니다!
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancle
-          </Button>
-          <RouterLink to="/home">
-            <Button onClick={handleClose} color="primary" autoFocus>
-              OK
-            </Button>
-          </RouterLink>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
+import DialogTitle from "@material-ui/core/DialogTitle"
+import "./Result.css";
+import { Button } from "@material-ui/core";
 
 class Result extends Component {
   constructor(props) {
     super(props);
     this.state = {
       result: null,
+      isSuccess:true,
       imgSrc: '',
     };
   }
@@ -75,32 +27,73 @@ class Result extends Component {
   render() {
     const { result, imgSrc } = this.state;
     
-    const params = this.props.match.screenshot
+    const params = this.props.match.params.screenshot
+    console.log(this.props.match)
+    console.log(this.props.match.path)
+    console.log(this.props.match.url)
+    console.log(this.props.match.params)
+    console.log(this.props.match.params.screenshot)
     console.log(params)
+
     const useStyles = makeStyles((theme) => ({
+      root: {
+        flexGrow: 1,
+      },
+
       paper: {
-        padding: theme.spacing(10),
-        margin: theme.spacing(5),
-        textAlign: "center",
+        "& > *": {
+          margin: theme.spacing(1),
+          width: theme.spacing(20),
+          height: theme.spacing(20),
+        },
         color: theme.palette.text.secondary,
       },
-      margin: {
-        margin: theme.spacing(1),
-        padding: theme.spacing(1),
+
+      alert: {
+        width: "100%",
+        "& > * + *": {
+          marginTop: theme.spacing(2),
+        },
       },
     }));
+    const testChange = () => {
+      this.setState({isSuccess:!this.state.isSuccess});
+    }
 
     return (
-      <center>
-        <Container>
-          <h2>Result</h2>
-        </Container>
-        <Container>
-          <Paper className={useStyles.paper}>
-            <AlertDialog name = {params}></AlertDialog>
-          </Paper>
-        </Container>
-      </center>
+      <Container
+        id="result-page"
+        maxWidth="sm"
+        maxHeight="sm"
+        className={useStyles.root}
+      >
+        <h1>Result</h1>
+        <Paper className={useStyles.paper} elevation={3}>
+          <img
+            src={params}
+            height={300}
+            width={400}
+            alt="placeholder"
+          ></img>
+        </Paper>
+        <br></br><br></br>
+        {this.state.isSuccess?(
+        <Alert className={useStyles.alert} severity="success">
+          <AlertTitle>Success</AlertTitle>
+          헬멧 인식에 성공했습니다! —{" "}
+          <Link to="/">
+            <strong>Home으로 돌아가기</strong>
+          </Link>
+        </Alert>):(<Alert className={useStyles.alert} severity="fail">
+          <AlertTitle>Success</AlertTitle>
+          헬멧 인식에 실패했습니다! —{" "}
+          <Link to="/">
+            <strong>Home으로 돌아가기</strong>
+          </Link>
+        </Alert>)
+      }
+      <Button onClick = {testChange} color="secondary">suc/fail test</Button>
+      </Container>
     );
   }
 }
