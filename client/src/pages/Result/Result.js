@@ -18,32 +18,6 @@ class Result extends Component {
     };
   }
 
-  uploadImage = (image) => {
-    const url = "http://localhost:8000/images";
-    const data = new FormData();
-
-    fetch(image)
-      .then((res) => res.blob())
-      .then((blob) => {
-        data.append("file", blob, "face.jpg");
-
-        const options = {
-          method: "post",
-          contentType: false,
-          body: data,
-        };
-
-        fetch(url, options)
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            this.setState({
-              result: res,
-            });
-          });
-      });
-  };
-
   render() {
     const { result, imgSrc } = this.state;
 
@@ -55,8 +29,19 @@ class Result extends Component {
     console.log(this.props.match.params.screenshot);
     console.log(params);
 
+    //fetch get json example
     const testChange = () => {
       this.setState({ isSuccess: !this.state.isSuccess });
+    };
+
+    //json result
+    const jsonInput = () => {
+      const url = "http://localhost:8000/web";
+      fetch(url)
+        .then((res) => res.json())
+        .then((res) => res.body)
+        .then((body) => body.confidence)
+        .then((confidence) => {});
     };
 
     const useStyles = makeStyles((theme) => ({
@@ -117,7 +102,7 @@ class Result extends Component {
           </Alert>
         )}
         <Button onClick={testChange} color="primary">
-          suc/fail test
+          SUCCESS/FAIL TEST
         </Button>
       </Container>
     );
