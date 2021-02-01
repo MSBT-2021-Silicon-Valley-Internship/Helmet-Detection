@@ -13,6 +13,8 @@ class Result extends Component {
     super(props);
     this.state = {
       result: null,
+      isSuccess: true,
+      imgSrc: "",
     };
   }
 
@@ -43,7 +45,19 @@ class Result extends Component {
   };
 
   render() {
-    const { result } = this.state;
+    const { result, imgSrc } = this.state;
+
+    const params = this.props.match.params.screenshot;
+    console.log(this.props.match);
+    console.log(this.props.match.path);
+    console.log(this.props.match.url);
+    console.log(this.props.match.params);
+    console.log(this.props.match.params.screenshot);
+    console.log(params);
+
+    const testChange = () => {
+      this.setState({ isSuccess: !this.state.isSuccess });
+    };
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -83,14 +97,28 @@ class Result extends Component {
             alt="placeholder"
           ></img>
         </Paper>
-        <br></br><br></br>
-        <Alert className={useStyles.alert} severity="success">
-          <AlertTitle>Success</AlertTitle>
-          헬멧 인식에 성공했습니다! —{" "}
-          <Link to="/">
-            <strong>Home으로 돌아가기</strong>
-          </Link>
-        </Alert>
+        <br></br>
+        <br></br>
+        {this.state.isSuccess ? (
+          <Alert className={useStyles.alert} severity="info">
+            <AlertTitle>SUCCESS</AlertTitle>
+            헬멧 인식에 성공했습니다! —{" "}
+            <Link to="/">
+              <strong>Home으로 돌아가기</strong>
+            </Link>
+          </Alert>
+        ) : (
+          <Alert className={useStyles.alert} severity="error">
+            <AlertTitle>FAIL</AlertTitle>
+            헬멧 인식에 실패했습니다! —{" "}
+            <Link to="/">
+              <strong>Home으로 돌아가기</strong>
+            </Link>
+          </Alert>
+        )}
+        <Button onClick={testChange} color="primary">
+          suc/fail test
+        </Button>
       </Container>
     );
   }
