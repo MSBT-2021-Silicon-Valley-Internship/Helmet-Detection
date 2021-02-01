@@ -23,6 +23,8 @@ WORKDIR /usr/src/app
 
 # Copy contents
 COPY . /usr/src/app
+RUN ls /usr/src/app
+
 
 # exposing port 8000 on container
 EXPOSE 8000
