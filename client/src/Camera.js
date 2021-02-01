@@ -31,11 +31,11 @@ class Camera extends Component {
     const data = new FormData();
 
     const imageSrc = this.webcam.getScreenshot();
-    //URL.createObjectURL : chrome disabled this 
+    
     fetch(imageSrc)
       .then((res) => res.blob())
       .then((blob) => {
-        data.append("file", blob, "face.jpg");
+        data.append("file", blob, "face3.jpg");
 
         const options = {
           method: "post",
@@ -65,11 +65,12 @@ class Camera extends Component {
     .then((blob)=>{
         console.log(blob)
         var reader = new FileReader();
-        reader.readAsDataURL(blob); 
-        reader.onloadend = function() {
+        
+        reader.onload = function() {
             var base64data = reader.result;                
             console.log(base64data);
         }
+        reader.readAsDataURL(blob); 
         this.setState({
           image : reader,
           image2 : reader.result

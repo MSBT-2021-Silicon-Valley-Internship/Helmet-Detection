@@ -18,13 +18,12 @@ RUN pip install gsutil
 
 # Create working directory
 # setting working dir inside container
+RUN ls
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy contents
 COPY . /usr/src/app
-RUN ls /usr/src/app
-
 
 # exposing port 8000 on container
 EXPOSE 8000

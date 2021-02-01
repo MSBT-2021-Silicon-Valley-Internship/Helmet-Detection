@@ -1,13 +1,12 @@
-from flask import Flask, flash, request, redirect, url_for, session, jsonify, render_template, url_for, send_file
+from flask import Flask, flash, request, redirect, url_for, session, jsonify, url_for, send_file, make_response
 from storage import insert_calculation, get_calculations
-from syndicai import PythonPredictor
 from upload import uploadImage
 from werkzeug.utils import secure_filename
 import logging
 import datetime
 from flask_cors import CORS, cross_origin
-
-import os
+import base64
+import os, io
 
 #from upload import uploader
 
@@ -31,7 +30,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 uploadfolder = uploadImage("")
 
-
+Filename = '/usr/src/app/face3.jpg'
       
 @app.route('/images', methods=['POST'])
 def fileUpload():
@@ -39,7 +38,7 @@ def fileUpload():
     
     if not os.path.isdir(target):
         os.mkdir(target)
-    logger.info("welcome to upload!")
+    logger.info("welcome to upload`")
 
     #SAVE NAME : DATE
     now = datetime.datetime.now() # 2015-04-19 12:11:32.669083
@@ -50,7 +49,8 @@ def fileUpload():
     print(file)
     file.save(file)
 
-    filename = "".join([nowDatetime, secure_filename(file.filename)])
+    #filename = "".join([nowDatetime, secure_filename(file.filename)])
+    filename = secure_filename(file.filename)
     print(filename)
     file.save(filename)
 
@@ -60,15 +60,21 @@ def fileUpload():
     #upload foldername save
     uploadfolder.setfoldername(destination)
 
-    response={'result': 'hello'}
+    #session['uploadFilePath']=filename
+    session['uploadFilePath']=destination
+
+    response={'result': 'ok'}
     return jsonify(response)
 
       
 @app.route('/web', methods=['GET'])
 def showimage():
-    uploadfolder.setfoldername("face3.jpg")
-    return uploadfolder.showimage()
-    #return app.send_static_file(uploadfolder.getfoldername())
+    byte_io = io.BytesIO()
+    byte_io.write(Filename)
+    byte_io.seek(0)
+    response = make_response(send_file(byte_io,mimetype='image/jpeg'))
+    response.headers['Content-Transfer-Encoding']='base64'
+    return response
     
 
 
