@@ -1,6 +1,7 @@
-from flask import Flask, flash, request, redirect, url_for, session, jsonify, render_template, send_file
+from flask import make_response, send_file, jsonify
 
 import io, os
+import base64
 
 class uploadImage:
     def __init__(self, config):
@@ -9,6 +10,13 @@ class uploadImage:
     def setfoldername(self, newFolderName):
         self.filename = newFolderName
 
-    def showimage(self):
-        return send_file(self.filename, as_attachment=True, mimetype='image/jpeg')
+    def getfoldername(self):
+        return self.filename
 
+    def showimage(self):
+        byte_io = io.BytesIO()
+        byte_io.write(self.filename)
+        byte_io.seek(0)
+        response = make_response(send_file(byte_io,mimetype='image/jpg'))
+        response.headers['Content-Transfer-Encoding']='base64'
+        return response

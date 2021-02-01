@@ -13,6 +13,7 @@ class Camera extends Component {
       screenshot: null,
       result: null,
       image: null,
+      image2: null
     };
   }
 
@@ -29,10 +30,12 @@ class Camera extends Component {
     const url = "http://localhost:8000/images";
     const data = new FormData();
 
-    fetch(image)
+    const imageSrc = this.webcam.getScreenshot();
+    
+    fetch(imageSrc)
       .then((res) => res.blob())
       .then((blob) => {
-        data.append("file", blob, "face.jpg");
+        data.append("file", blob, "face3.jpg");
 
         const options = {
           method: "post",
@@ -55,36 +58,36 @@ class Camera extends Component {
     const url = "http://localhost:8000/web";
 
     fetch(url)
-      //.then(res => {
-      .then((res) => res.body)
-      //.then(body => {
-      .then(body => body.blob)
-      .then(blob => {
+    .then((response) => {
+      console.log(response)
+      return response.blob();
+    })
+    .then((blob)=>{
+        console.log(blob)
         var reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = function(){
-          var base64data = reader.result
-          console.log(base64data)  
-          this.setState({
-            image : base64data,
-          });
+        
+        reader.onload = function() {
+            var base64data = reader.result;                
+            console.log(base64data);
         }
-        /*
-        console.log(res)
-        console.log(res.type)
-        console.log(res.json())
+        reader.readAsDataURL(blob); 
+        this.setState({
+          image : reader,
+          image2 : reader.result
+        });
+        console.log(reader)
+        console.log(reader.result)
 
-        console.log(res.body)
-        console.log(res.body.type)
-        console.log(res.body.blob)
-        console.log(res.body.blob.type)
-        */
-      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
    
   }
 
+
   render() {
-    const { screenshot, result, image } = this.state;
+    const { screenshot, result, image, image2 } = this.state;
 
     const useStyles = makeStyles((theme) => ({
       heroButtons: {
@@ -138,6 +141,7 @@ class Camera extends Component {
           <div>
             <h3>show image from flask</h3>
             {image && <img src={image} />}
+            {image2 && <img src={image2} />}
             
           </div>
         </div>

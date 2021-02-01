@@ -1,4 +1,4 @@
-from flask import Flask, flash, request, redirect, url_for, session, jsonify, render_template, url_for
+from flask import Flask, flash, request, redirect, url_for, session, jsonify, url_for, send_file, make_response
 from storage import insert_calculation, get_calculations
 from syndicai import PythonPredictor
 from upload import uploadImage
@@ -6,8 +6,8 @@ from werkzeug.utils import secure_filename
 import logging
 import datetime
 from flask_cors import CORS, cross_origin
-
-import os
+import base64
+import os, io
 
 #from upload import uploader
 
@@ -31,7 +31,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 uploadfolder = uploadImage("")
 
-
+Filename = '/usr/src/app/face3.jpg'
       
 @app.route('/images', methods=['POST'])
 def fileUpload():
@@ -50,7 +50,8 @@ def fileUpload():
     print(file)
     file.save(file)
 
-    filename = "".join([nowDatetime, secure_filename(file.filename)])
+    #filename = "".join([nowDatetime, secure_filename(file.filename)])
+    filename = secure_filename(file.filename)
     print(filename)
     file.save(filename)
 
@@ -63,13 +64,18 @@ def fileUpload():
     #session['uploadFilePath']=filename
     session['uploadFilePath']=destination
 
-    response={'result': 'hello'}
+    response={'result': 'ok'}
     return jsonify(response)
 
       
 @app.route('/web', methods=['GET'])
 def showimage():
-    uploadfolder.showimage()
+    byte_io = io.BytesIO()
+    byte_io.write(Filename)
+    byte_io.seek(0)
+    response = make_response(send_file(byte_io,mimetype='image/jpg'))
+    response.headers['Content-Transfer-Encoding']='base64'
+    return response
     
 
 
