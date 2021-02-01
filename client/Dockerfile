@@ -12,7 +12,6 @@ COPY package*.json /usr/src/app/
 
 # installing npm packages
 RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
 
 # copying over react source material
 COPY . /usr/src/app
