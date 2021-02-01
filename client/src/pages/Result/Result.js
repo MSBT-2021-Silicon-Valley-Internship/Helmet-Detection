@@ -39,7 +39,7 @@ export function AlertDialog() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {"Helmet Detection AI"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -50,7 +50,7 @@ export function AlertDialog() {
           <Button onClick={handleClose} color="primary">
             Cancle
           </Button>
-          <RouterLink to="/success">
+          <RouterLink to="/home">
             <Button onClick={handleClose} color="primary" autoFocus>
               OK
             </Button>

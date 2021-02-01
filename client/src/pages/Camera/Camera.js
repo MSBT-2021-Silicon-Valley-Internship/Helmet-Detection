@@ -19,7 +19,7 @@ class Camera extends Component {
     this.state = {
       screenshot: null,
       result: null,
-      open: true
+      open: true,
     };
   }
 
@@ -59,7 +59,7 @@ class Camera extends Component {
   };
 
   toScreenshot = () => {
-    this.setState(state => ({ open: !state.open}))
+    this.setState((state) => ({ open: !state.open }));
   };
 
   render() {
@@ -84,9 +84,7 @@ class Camera extends Component {
     return (
       <center>
         <Container maxWidth="sm" maxHeight="sm" className={useStyles.root}>
-          <h2>
-            Capture & V
-          </h2>
+          <h2>Capture & Upload</h2>
           <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>

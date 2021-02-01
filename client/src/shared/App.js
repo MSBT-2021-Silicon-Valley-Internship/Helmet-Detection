@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import Home from "../pages/Home";
-import Camera from "../pages/camera";
-import Result from "../pages/Result";
-import Success from "../pages/Success";
+import Home from "../pages/Home/Home";
+import Camera from "../pages/Camera/Camera";
+import Result from "../pages/Result/Result";
 
 class App extends Component {
   render() {
@@ -13,7 +12,6 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/camera" component={Camera} />
           <Route path="/result" component={Result} />
-          <Route path="/success" component={Success} />
         </div>
       </div>
     );
