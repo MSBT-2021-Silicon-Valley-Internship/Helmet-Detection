@@ -43,8 +43,7 @@ export function AlertDialog() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
+            헬멧이 인식되었습니다!
           </DialogContentText>
         </DialogContent>
         <DialogActions>
