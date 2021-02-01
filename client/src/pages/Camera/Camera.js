@@ -179,7 +179,7 @@ class Camera extends Component {
               </div>
               <br></br>
               <br></br>
-              <RouterLink to={`/result/${screenshot}`}>
+              <RouterLink to={'/result'}>
                 <Fab
                   variant="extended"
                   color="secondary"

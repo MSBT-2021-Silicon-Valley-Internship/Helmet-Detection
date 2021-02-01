@@ -10,6 +10,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle"
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import "./Result.css";
 import { Button } from "@material-ui/core";
 
@@ -20,20 +22,35 @@ class Result extends Component {
       result: null,
       isSuccess:true,
       imgSrc: '',
+      timeval: 0,
+      isresult:false,
     };
   }
-
-
+  
+  timechange = () => {
+    let timeval = 0;
+    let timerId = setTimeout(function tick() {
+      this.setState({timeval : this.state.timeval + 10,})
+      timerId = setTimeout(tick.bind(this), 20);
+    }.bind(this), 20);
+  }
+  //jsonresult
+  componentDidMount = () => {
+    const url = "http://localhost:8000/web";
+    const options = {
+      method: "post",
+      body: "test",
+    };
+    fetch(url, options)
+    .then(res =>{
+      console.log(res)
+      this.setState({isresult:true})
+      console.log(this.state.isresult)
+    })  
+  }
+  
   render() {
     const { result, imgSrc } = this.state;
-    
-    const params = this.props.match.params.screenshot
-    console.log(this.props.match)
-    console.log(this.props.match.path)
-    console.log(this.props.match.url)
-    console.log(this.props.match.params)
-    console.log(this.props.match.params.screenshot)
-    console.log(params)
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -61,21 +78,9 @@ class Result extends Component {
     const testChange = () => {
       this.setState({isSuccess:!this.state.isSuccess});
     }
-    //json result
-    const jsonInput = () => { 
-      const url = "http://localhost:8000/web";
-      fetch(url)
-      .then(res => res.json())
-      
-      .then(res => res.body)
-      .then(body => body.confidence)
-      .then(confidence => {
 
-      })  
-        
 
-    
-    }
+
     return (
       <Container
         id="result-page"
@@ -84,14 +89,14 @@ class Result extends Component {
         className={useStyles.root}
       >
         <h1>Result</h1>
+        {this.state.isresult?<div></div>:
         <Paper className={useStyles.paper} elevation={3}>
-          <img
-            src={params}
-            height={300}
-            width={400}
-            alt="placeholder"
-          ></img>
+      <div>
+        <button onClick={this.timechange}>progressbutton</button>
+      </div>
+      <CircularProgress variant="determinate" value={this.state.timeval}/>
         </Paper>
+        }
         <br></br><br></br>
         {this.state.isSuccess?(
         <Alert className={useStyles.alert} severity="success">
