@@ -46,6 +46,10 @@ class Result extends Component {
     const { result } = this.state;
 
     const useStyles = makeStyles((theme) => ({
+      root: {
+        flexGrow: 1,
+      },
+
       paper: {
         "& > *": {
           margin: theme.spacing(1),
@@ -64,7 +68,12 @@ class Result extends Component {
     }));
 
     return (
-      <div id="result-page">
+      <Container
+        id="result-page"
+        maxWidth="sm"
+        maxHeight="sm"
+        className={useStyles.root}
+      >
         <h1>Result</h1>
         <Paper className={useStyles.paper} elevation={3}>
           <img
@@ -74,6 +83,7 @@ class Result extends Component {
             alt="placeholder"
           ></img>
         </Paper>
+        <br></br><br></br>
         <Alert className={useStyles.alert} severity="success">
           <AlertTitle>Success</AlertTitle>
           헬멧 인식에 성공했습니다! —{" "}
@@ -81,7 +91,7 @@ class Result extends Component {
             <strong>Home으로 돌아가기</strong>
           </Link>
         </Alert>
-      </div>
+      </Container>
     );
   }
 }

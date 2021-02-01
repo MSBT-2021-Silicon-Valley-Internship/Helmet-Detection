@@ -115,8 +115,13 @@ class Camera extends Component {
 
     return (
       <center>
-        <Container maxWidth="sm" maxHeight="sm" className={useStyles.root}>
-          <h2>Capture & V</h2>
+        <Container
+          id="camera-page"
+          maxWidth="sm"
+          maxHeight="sm"
+          className={useStyles.root}
+        >
+          <h1>Capture & Upload</h1>
           <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
@@ -162,6 +167,7 @@ class Camera extends Component {
                     src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
                     height={400}
                     width={400}
+                    margin={50}
                     alt="placeholder"
                   ></img>
                 )}
