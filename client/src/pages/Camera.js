@@ -8,12 +8,18 @@ import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 
+function toScreenshot(e) {
+  e.target.setAttribute("src", "https://source.unsplash.com/LYK3ksSQyeo");
+  e.target.setAttribute("alt", "screenshot");
+}
+
 class Camera extends Component {
   constructor(props) {
     super(props);
     this.state = {
       screenshot: null,
       result: null,
+      open: true
     };
   }
 
@@ -52,6 +58,10 @@ class Camera extends Component {
       });
   };
 
+  toScreenshot = () => {
+    this.setState(state => ({ open: !state.open}))
+  };
+
   render() {
     const { screenshot, result } = this.state;
 
@@ -67,13 +77,16 @@ class Camera extends Component {
       },
       margin: {
         margin: theme.spacing(1),
-        padding: theme.spacing(1)
+        padding: theme.spacing(1),
       },
     }));
 
     return (
       <center>
         <Container maxWidth="sm" maxHeight="sm" className={useStyles.root}>
+          <h2>
+            Capture & V
+          </h2>
           <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
@@ -109,6 +122,7 @@ class Camera extends Component {
                 ></img>
                 {screenshot && (
                   <img
+                    onClick={toScreenshot}
                     padding={10}
                     src={screenshot}
                     alt="screenshot"
