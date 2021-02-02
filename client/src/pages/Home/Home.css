@@ -1,35 +1,40 @@
 body {
-  background-color: #1976d2;
-  font-family: "Oswald", sans-serif;
+  background-color: #f2e9de;
+  font-family: "Montserrat", sans-serif;
   text-align: center;
   color: #fff;
 }
 
-button {
-  background-color: white;
-  font-family: "Oswald", sans-serif;
-  font-size: 1.25em;
-  font-weight: 400;
+.start-button {
+  background: #8ecacc;
+  color: white;
+  border-radius: 5px;
+  padding: 0.4rem 0.5rem;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  border: 2px solid black;
-  border-radius: 4px;
-  padding: 12px 44px 12px 44px;
-  color: black;
+  font-family: "Montserrat", sans-serif;
   -webkit-transition: color 0.5s, background-color 0.5s;
   transition: color 0.5s, background-color 0.5s;
   cursor: pointer;
 }
 
-button:hover {
+.start-button:hover {
   background-color: black;
   color: white;
+}
+
+#start-button {
+  margin: 5%;
 }
 
 /* Start Page */
 #start-page {
   max-width: 100%;
   max-height: 100%;
-  margin-top: 6%;
+  margin-top: 20%;
+  margin-bottom: 10%;
 }
 
 #start-page > h1 {
@@ -39,7 +44,11 @@ button:hover {
 }
 
 #start-page > h2 {
-  font-size: 1.25em;
-  font-weight: 300;
+  font-size: 2em;
+  font-weight: 400;
   margin: 15px 0 20px 0;
+}
+
+#main-paragraph {
+  margin-bottom: 10%;
 }

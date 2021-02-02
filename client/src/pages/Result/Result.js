@@ -12,6 +12,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle"
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import ReactJson from "react-json-view";
 import "./Result.css";
 import { Button } from "@material-ui/core";
 
@@ -39,7 +40,6 @@ class Result extends Component {
     const url = "http://localhost:8000/web";
     const options = {
       method: "get",
-      body: "test",
     };
     fetch(url, options)
     .then(res =>{
@@ -94,7 +94,7 @@ class Result extends Component {
       <div>
         <button onClick={this.timechange}>progressbutton</button>
       </div>
-      <CircularProgress variant="determinate" value={[this.state.timeval]}/>
+      <CircularProgress variant="determinate" value={this.state.timeval}/>
         </Paper>
         }
         <br></br><br></br>
@@ -114,6 +114,13 @@ class Result extends Component {
         </Alert>)
       }
       <Button onClick = {testChange} color="secondary">suc/fail test</Button>
+      
+        <div>
+          <h2>Result</h2>
+          {result && <ReactJson src={result} />}
+          <br/>
+          <br/>
+        </div>
       </Container>
     );
   }

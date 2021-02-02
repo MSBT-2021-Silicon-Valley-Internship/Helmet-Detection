@@ -1,9 +1,11 @@
 .big-container{
 }
-.container{
+.box-container{
   display:flex;
-justify-content: space-around;
+  justify-content: space-around;
 
 }
-.box-left{float: left;}
-.box-right{float:right}
+.box-left{display: block;
+  float: left;}
+.box-right{display:block;
+  float: right;}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Webcam from "react-webcam";
-import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -117,10 +116,12 @@ class Camera extends Component {
     return (
       <center>
           <h1>Capture & Upload</h1>
+                <br></br>
+                <br></br>
           <div className='big-container'>
             
           <Paper className={useStyles.paper}>
-        <div className='container'>
+        <div className='box-container'>
           <div className='box-left'>
           <Grid item md={12}>
             <Paper className={useStyles.paper}>
@@ -195,12 +196,6 @@ class Camera extends Component {
           </Grid>
           </div>
         </div>
-          <div>
-            <h2>Result</h2>
-            {result && <ReactJson src={result} />}
-            <br/>
-            <br/>
-          </div>
           
           </Paper>
           </div>
