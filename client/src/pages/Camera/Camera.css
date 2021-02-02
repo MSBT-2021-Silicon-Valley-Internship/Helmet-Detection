@@ -1,17 +1,5 @@
-#camera-page {
-  max-width: 500;
-  max-height: 500;
-  margin-top: 10%;
-  font-family: "Nanum Gothic", sans-serif;
-  text-align: center;
+.paper {
 }
-
-#camera-page > h1 {
-  font-weight: 400;
-  font-size: 4em;
-  font-weight: 500;
-}
-
 
 .container {
   display: flex;
@@ -29,4 +17,23 @@
   font-size: 300;
   margin-top: 10%;
   margin-bottom: 3%;
+}
+.box-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+.box-left {
+  display: block;
+  float: left;
+  padding: 20px;
+}
+.box-right {
+  display: block;
+  float: right;
+  padding: 20px;
+}
+.img-right {
+  width: 400px;
+  height: 400px;
 }

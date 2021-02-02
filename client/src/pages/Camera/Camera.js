@@ -10,14 +10,10 @@ import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 import Button from "@material-ui/core/Button";
-import "./Camera.css";
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
-}));
+import { Backdrop } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import "./Camera.css";
 
 function toScreenshot(e) {
   e.target.setAttribute("src", "https://source.unsplash.com/LYK3ksSQyeo");
@@ -32,7 +28,9 @@ class Camera extends Component {
       result: null,
       image: null,
       image2: null,
+      timeval: 0,
       changePlaceholder: false,
+      open: false,
     };
   }
 
@@ -100,10 +98,6 @@ class Camera extends Component {
       });
   };
 
-  toScreenshot = () => {
-    this.setState((state) => ({ open: !state.open }));
-  };
-
   render() {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
 
@@ -136,102 +130,128 @@ class Camera extends Component {
       },
     }));
 
-    function SimpleBackdrop() {
-      const classes = useStyles();
-      const [open, setOpen] = React.useState(false);
-      const handleClose = () => {
-        setOpen(false);
-      };
-      const handleToggle = () => {
-        setOpen(!open);
-      };
+    const handleClose = () => {
+      this.setState((state) => ({ open: false }));
+    };
+    const handleToggle = () => {
+      this.setState((state) => ({ open: true }));
+    };
+    const timechange = () => {
+      let timeval = 0;
+      let timerId = setTimeout(
+        function tick() {
+          this.setState({ timeval: this.state.timeval + 10 });
 
-      return (
-        <div>
-          <Button variant="outlined" color="primary" onClick={handleToggle}>
-            Show backdrop
-          </Button>
-          <Backdrop
-            className={classes.backdrop}
-            open={open}
-            onClick={handleClose}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-        </div>
+          if (this.state.timeval > 1000) {
+            handleClose();
+            return 0;
+          } else {
+            timerId = setTimeout(tick.bind(this), 20);
+            handleToggle();
+            console.log(this.state.timeval);
+          }
+        }.bind(this),
+        20
       );
-    }
+    };
 
     return (
       <center>
-        <div className="header">
-          <h1>Capture & Upload</h1>
-        </div>
-
-        <Grid container spacing={3}>
-          <Grid item md={6}>
-            <Paper id="box-left" className={useStyles.paper}>
-              <div>
-                <Webcam
-                  audio={false}
-                  height={400}
-                  width={400}
-                  ref={this.setRef}
-                  screenshotFormat="image/jpg"
-                />
-              </div>
-              <Fab
-                variant="extended"
-                color="primary"
-                aria-label="add"
-                onClick={() => this.capture()}
-              >
-                Capture
-              </Fab>
-            </Paper>
-          </Grid>
-          <Grid item md={6}>
-            <Paper id="box-right" className={useStyles.paper}>
-              <div>
-                {changePlaceholder ? (
+        <h1>Capture & Upload</h1>
+        <br></br>
+        <br></br>
+        <div className="big-container">
+          <div className="box-container">
+            <div className="box-left">
+              <Grid item md={12}>
+                <Paper className="paper">
                   <div>
-                    {screenshot && (
-                      <img
-                        onClick={toScreenshot}
-                        padding={10}
-                        src={screenshot}
-                        alt="screenshot"
-                        height={300}
-                        width={400}
-                        margin={50}
-                        alt="placeholder"
-                      ></img>
+                    <Webcam
+                      audio={false}
+                      height={400}
+                      width={400}
+                      ref={this.setRef}
+                      screenshotFormat="image/jpg"
+                    />
+                  </div>
+                  <Fab
+                    variant="extended"
+                    color="primary"
+                    aria-label="add"
+                    onClick={() => this.capture()}
+                  >
+                    Capture
+                  </Fab>
+                </Paper>
+              </Grid>
+            </div>
+            <br></br>
+            <br></br>
+            <div className="box-right">
+              <Grid item md={12}>
+                <Paper className="paper">
+                  <div>
+                    {changePlaceholder ? (
+                      <div className="img-right">
+                        {screenshot && (
+                          <img
+                            padding={10}
+                            src={screenshot}
+                            alt="screenshot"
+                            height={300}
+                            width={400}
+                            alt="placeholder"
+                          ></img>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="img-right">
+                        <img
+                          src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
+                          height={400}
+                          width={400}
+                          alt="placeholder"
+                        ></img>
+                      </div>
                     )}
                   </div>
-                ) : (
-                  <img
-                    src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-                    height={400}
-                    width={400}
-                    alt="placeholder"
-                  ></img>
-                )}
-              </div>
-              <RouterLink to={"/result"}>
-                <Fab
-                  variant="extended"
-                  color="secondary"
-                  aria-label="add"
-                  className={useStyles.margin}
-                  onClick={() => this.uploadImage()}
-                >
-                  Upload
-                </Fab>
-              </RouterLink>
-              <SimpleBackdrop />
-            </Paper>
-          </Grid>
-        </Grid>
+
+                  {this.state.timeval > 1000 ? (
+                    <RouterLink to={"/result"}>
+                      <Fab
+                        variant="extended"
+                        color="secondary"
+                        aria-label="add"
+                        className={useStyles.margin}
+                        onClick={() => timechange()}
+                      >
+                        upload
+                      </Fab>
+                    </RouterLink>
+                  ) : (
+                    <Fab
+                      variant="extended"
+                      color="secondary"
+                      aria-label="add"
+                      className={useStyles.margin}
+                      onClick={() => timechange()}
+                    >
+                      Uploading
+                    </Fab>
+                  )}
+                </Paper>
+              </Grid>
+            </div>
+          </div>
+        </div>
+
+        <Backdrop
+          className="back-drop"
+          open={this.state.open}
+          onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </center>
     );
   }
