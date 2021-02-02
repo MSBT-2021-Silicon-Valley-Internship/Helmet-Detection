@@ -149,7 +149,7 @@ class Camera extends Component {
         <div className='box-container'>
           <div className='box-left'>
           <Grid item md={12}>
-          <Paper className={useStyles.paper}>
+          <Paper className='paper'>
             <div>
                 <Webcam
                   audio={false}
@@ -172,24 +172,16 @@ class Camera extends Component {
 
           </Grid>
           </div>
-
-
-
-
-
-
                 <br></br>
                 <br></br>
           <div className='box-right'>
           <Grid item md={12}>
-            <Paper className={useStyles.paper}>
+            <Paper className='paper'>
 
               <div>
-                <br></br>
-                <br></br>
-
+              
                 {changePlaceholder?
-                <div>
+                <div className='img-right'>
                 {screenshot && (
                   <img
                     padding={10}
@@ -201,13 +193,15 @@ class Camera extends Component {
                     alt="placeholder"
                   ></img>
                 )}
-                </div> :              
+                </div> :
+                <div className='img-right'>            
                 <img
                   src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
                   height={400}
                   width={400}
                   alt="placeholder"
                 ></img>
+                </div>
                 }
 
 
@@ -233,7 +227,6 @@ class Camera extends Component {
             >
               Uploading
             </Fab>}
-              <h1>{this.state.timeval}</h1>
               </Paper>
 
 
@@ -243,9 +236,9 @@ class Camera extends Component {
           
           </div>
 
-<Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
-  <CircularProgress color="inherit"  />
-</Backdrop>
+      <Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
+        <CircularProgress color="inherit"  />
+      </Backdrop>
 
 
       </center>

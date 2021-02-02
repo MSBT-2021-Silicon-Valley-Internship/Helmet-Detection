@@ -1,11 +1,21 @@
-.big-container{
+.paper{
 }
 .box-container{
   display:flex;
   justify-content: space-around;
-
+  padding: 20px;
 }
-.box-left{display: block;
-  float: left;}
-.box-right{display:block;
-  float: right;}
+.box-left{
+  display: block;
+  float: left;
+  padding: 20px;
+}
+.box-right{
+  display:block;
+  float: right;
+  padding: 20px;
+}
+.img-right{
+  width: 400px;
+  height: 400px;
+  }
