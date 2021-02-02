@@ -3,16 +3,12 @@ import { Link as RouterLink } from "react-router-dom";
 import Webcam from "react-webcam";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 import Button from "@material-ui/core/Button";
-
-import { Backdrop } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import "./Camera.css";
 
 function toScreenshot(e) {
@@ -165,9 +161,14 @@ class Camera extends Component {
 
     return (
       <div>
+        <div className="header">
           <h1>Capture & Upload</h1>
-                <br></br>
-                <br></br>
+          <h2>
+            헬멧을 쓴 채로, <b>카메라</b>를 응시하세요.<br></br>
+            <b>CAPTURE</b> 버튼을 눌러 사진을 찍고,<br></br>
+            오른쪽에 나타난 스크린샷을 <b>UPLOAD</b> 하세요.
+          </h2>
+        
           <div className='big-container'>
             
         <div className='box-container'>
@@ -275,7 +276,32 @@ class Camera extends Component {
               </Paper>
 
 
-          </Grid>
+                  {this.state.timeval > 1000 ? (
+                    <RouterLink to={"/result"}>
+                      <Fab
+                        variant="extended"
+                        color="secondary"
+                        aria-label="add"
+                        className={useStyles.margin}
+                        onClick={() => timechange()}
+                      >
+                        Upload
+                      </Fab>
+                    </RouterLink>
+                  ) : (
+                    <Fab
+                      variant="extended"
+                      color="secondary"
+                      aria-label="add"
+                      className={useStyles.margin}
+                      onClick={() => timechange()}
+                    >
+                      Upload
+                    </Fab>
+                  )}
+                </Paper>
+              </Grid>
+            </div>
           </div>
         </div>
           
@@ -309,6 +335,41 @@ class Camera extends Component {
       </Backdrop>
 
 
+        {this.state.webcamopen ? (
+          <Fab
+            variant="extended"
+            color="secondary"
+            aria-label="add"
+            className={useStyles.margin}
+            onClick={() => {
+              this.webcamoff();
+            }}
+          >
+            webcam off
+          </Fab>
+        ) : (
+          <Fab
+            variant="extended"
+            color="primary"
+            aria-label="add"
+            className={useStyles.margin}
+            onClick={() => {
+              this.webcamoff();
+            }}
+          >
+            webcam on
+          </Fab>
+        )}
+        <br />
+        <br />
+        <br />
+        <Backdrop
+          className="back-drop"
+          open={this.state.open}
+          onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     );
   }
