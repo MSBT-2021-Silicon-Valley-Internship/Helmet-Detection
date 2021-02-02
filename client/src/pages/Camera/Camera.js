@@ -29,6 +29,7 @@ class Camera extends Component {
       changePlaceholder: false,
       open:false,
       webcamopen:true,
+      iscaptured:false,
     };
   }
 
@@ -38,7 +39,7 @@ class Camera extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-    this.setState({ screenshot: imageSrc, changePlaceholder: true });
+    this.setState({ screenshot: imageSrc, changePlaceholder: true , iscaptured:true});
   };
 
   uploadImage = (image) => {
@@ -99,7 +100,9 @@ class Camera extends Component {
   webcamoff = () => {
     this.setState({ webcamopen: !this.state.webcamopen });
   }
-
+  reCapturing = () => {
+    this.setState({ iscaptured:false, changePlaceholder:!this.state.changePlaceholder });
+  }
 
   render() {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
@@ -163,11 +166,26 @@ class Camera extends Component {
                   width={400}
                   ref={this.setRef}
                   screenshotFormat="image/jpg"
-                />):(
+                />)
+                :
+                (
                   <div>{this.state.webcamopen}</div>
                 )}
 
               </div>
+              {this.state.iscaptured?(
+                <Fab
+                variant="extended"
+                color="primary"
+                aria-label="add"
+                className={useStyles.margin}
+                onClick={() => this.reCapturing()}
+              >
+                reCapture
+              </Fab>
+              )
+              :
+              (
               <Fab
                 variant="extended"
                 color="primary"
@@ -177,6 +195,8 @@ class Camera extends Component {
               >
                 Capture
               </Fab>
+              )
+            }    
             </Paper>
 
           </Grid>
