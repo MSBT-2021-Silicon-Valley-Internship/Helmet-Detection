@@ -23,10 +23,13 @@
   vertical-align: middle;
 
 }
-.img-right{
+.img-right-wrapper{
+  display:table;
 
+}
+.img-right{
+display: table-cell;
+vertical-align: middle;
   width: 400px;
   height: 400px;
-  display:flex;
-  vertical-align: middle;
   }

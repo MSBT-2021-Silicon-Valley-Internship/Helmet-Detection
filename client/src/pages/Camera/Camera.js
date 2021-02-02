@@ -187,7 +187,7 @@ class Camera extends Component {
           <Grid item md={12}>
             <Paper className='paper'>
 
-              <div>
+              <div className='img-right-wrapper'>
               
                 {changePlaceholder?
                 <div className='img-right'>
@@ -244,6 +244,7 @@ class Camera extends Component {
         </div>
           
           </div>
+          
           {this.state.webcamopen?(          
           <Fab
               variant="extended"
@@ -263,7 +264,9 @@ class Camera extends Component {
             >
               webcam on
             </Fab>)}
-
+            <br/>
+            <br/>
+            <br/>
       <Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
         <CircularProgress color="inherit"  />
       </Backdrop>
