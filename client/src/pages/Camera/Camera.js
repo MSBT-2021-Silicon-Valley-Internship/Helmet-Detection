@@ -26,9 +26,9 @@ class Camera extends Component {
       image2: null,
       timeval: 0,
       changePlaceholder: false,
-      open:false,
-      webcamopen:true,
-      iscaptured:false,
+      open: false,
+      webcamopen: true,
+      iscaptured: false,
     };
   }
 
@@ -38,7 +38,11 @@ class Camera extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-    this.setState({ screenshot: imageSrc, changePlaceholder: true , iscaptured:true});
+    this.setState({
+      screenshot: imageSrc,
+      changePlaceholder: true,
+      iscaptured: true,
+    });
   };
 
   uploadImage = (image) => {
@@ -97,10 +101,13 @@ class Camera extends Component {
   };
   webcamoff = () => {
     this.setState({ webcamopen: !this.state.webcamopen });
-  }
+  };
   reCapturing = () => {
-    this.setState({ iscaptured:false, changePlaceholder:!this.state.changePlaceholder });
-  }
+    this.setState({
+      iscaptured: false,
+      changePlaceholder: !this.state.changePlaceholder,
+    });
+  };
 
   render() {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
@@ -168,113 +175,84 @@ class Camera extends Component {
             <b>CAPTURE</b> 버튼을 눌러 사진을 찍고,<br></br>
             오른쪽에 나타난 스크린샷을 <b>UPLOAD</b> 하세요.
           </h2>
-        
-          <div className='big-container'>
-            
-        <div className='box-container'>
-          <div className='box-left'>
-          <Grid item md={12}>
-          <Paper className='paper'>
-            <div className='img-left'>
-              {this.state.webcamopen?(                
-              <Webcam
-                  audio={false}
-                  height={400}
-                  width={400}
-                  ref={this.setRef}
-                  screenshotFormat="image/jpg"
-                />)
-                :
-                (
-                  <div>{this.state.webcamopen}</div>
-                )}
+          <h3>
+            다시 찍으려면 <b>RECAPUTURE</b> 버튼을 누르세요.
+            <br></br>
+            카메라를 끄려면 <b>WEBCAM OFF</b> 버튼을 누르세요.
+          </h3>
 
-              </div>
-              {this.state.iscaptured?(
-                <Fab
-                variant="extended"
-                color="primary"
-                aria-label="add"
-                className={useStyles.margin}
-                onClick={() => this.reCapturing()}
-              >
-                reCapture
-              </Fab>
-              )
-              :
-              (
-              <Fab
-                variant="extended"
-                color="primary"
-                aria-label="add"
-                className={useStyles.margin}
-                onClick={() => this.capture()}
-              >
-                Capture
-              </Fab>
-              )
-            }    
-            </Paper>
-
-          </Grid>
-          </div>
-                <br></br>
-                <br></br>
-          <div className='box-right'>
-          <Grid item md={12}>
-            <Paper className='paper'>
-
-              <div className='img-right-wrapper'>
-              
-                {changePlaceholder?
-                <div className='img-right'>
-                {screenshot && (
-                  <img
-                    padding={10}
-                    src={screenshot}
-                    alt="screenshot"
-                    height={300}
-                    width={400}
-                    margin={50}
-                    alt="placeholder"
-                  ></img>
-                )}
-                </div> :
-                <div className='img-right'>            
-                <img
-                  src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
-                  height={300}
-                  width={400}
-                  alt="placeholder"
-                ></img>
-                </div>
-                }
-
-
-              </div>
-                
-                {this.state.timeval > 1000? <RouterLink to={'/result'}>
-                <Fab
-                  variant="extended"
-                  color="secondary"
-                  aria-label="add"
-                  className={useStyles.margin}
-                  onClick={() => timechange()}
-                >
-                  upload
-                </Fab>
-              </RouterLink>
-              :<Fab
-              variant="extended"
-              color="secondary"
-              aria-label="add"
-              className=''
-              onClick={() => timechange()}
-            >
-              Uploading
-            </Fab>}
-              </Paper>
-
+          <div className="box-container">
+            <div className="box-left">
+              <Grid item md={12}>
+                <Paper className="paper">
+                  <div className="img-left">
+                    {this.state.webcamopen ? (
+                      <Webcam
+                        audio={false}
+                        height={400}
+                        width={400}
+                        ref={this.setRef}
+                        screenshotFormat="image/jpg"
+                      />
+                    ) : (
+                      <div>{this.state.webcamopen}</div>
+                    )}
+                  </div>
+                  {this.state.iscaptured ? (
+                    <Fab
+                      variant="extended"
+                      color="primary"
+                      aria-label="add"
+                      className={useStyles.margin}
+                      onClick={() => this.reCapturing()}
+                    >
+                      RECAPUTURE
+                    </Fab>
+                  ) : (
+                    <Fab
+                      variant="extended"
+                      color="primary"
+                      aria-label="add"
+                      className={useStyles.margin}
+                      onClick={() => this.capture()}
+                    >
+                      CAPTURE
+                    </Fab>
+                  )}
+                </Paper>
+              </Grid>
+            </div>
+            <br></br>
+            <br></br>
+            <div className="box-right">
+              <Grid item md={12}>
+                <Paper className="paper">
+                  <div className="img-right-wrapper">
+                    {changePlaceholder ? (
+                      <div className="img-right">
+                        {screenshot && (
+                          <img
+                            padding={10}
+                            src={screenshot}
+                            alt="screenshot"
+                            height={300}
+                            width={400}
+                            margin={50}
+                            alt="placeholder"
+                          ></img>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="img-right">
+                        <img
+                          src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
+                          height={300}
+                          width={400}
+                          alt="placeholder"
+                        ></img>
+                      </div>
+                    )}
+                  </div>
 
                   {this.state.timeval > 1000 ? (
                     <RouterLink to={"/result"}>
@@ -285,7 +263,7 @@ class Camera extends Component {
                         className={useStyles.margin}
                         onClick={() => timechange()}
                       >
-                        Upload
+                        UPLOAD
                       </Fab>
                     </RouterLink>
                   ) : (
@@ -293,10 +271,10 @@ class Camera extends Component {
                       variant="extended"
                       color="secondary"
                       aria-label="add"
-                      className={useStyles.margin}
+                      className=""
                       onClick={() => timechange()}
                     >
-                      Upload
+                      UPLOAD
                     </Fab>
                   )}
                 </Paper>
@@ -304,36 +282,6 @@ class Camera extends Component {
             </div>
           </div>
         </div>
-          
-          </div>
-          
-          {this.state.webcamopen?(          
-          <Fab
-              variant="extended"
-              color="secondary"
-              aria-label="add"
-              className={useStyles.margin}
-              onClick={() =>{this.webcamoff()}}
-            >
-              webcam off
-            </Fab>):(          
-            <Fab
-              variant="extended"
-              color="primary"
-              aria-label="add"
-              className={useStyles.margin}
-              onClick={() =>{this.webcamoff()}}
-            >
-              webcam on
-            </Fab>)}
-            
-            <br/>
-            <br/>
-            <br/>
-      <Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
-        <CircularProgress color="inherit"  />
-      </Backdrop>
-
 
         {this.state.webcamopen ? (
           <Fab
@@ -360,6 +308,7 @@ class Camera extends Component {
             webcam on
           </Fab>
         )}
+
         <br />
         <br />
         <br />

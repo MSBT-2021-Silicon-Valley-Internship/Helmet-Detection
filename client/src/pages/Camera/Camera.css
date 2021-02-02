@@ -10,6 +10,10 @@
   font-size: 100%;
 }
 
+.header > h3 {
+  font-size: 75%;
+}
+
 .box-container {
   display: flex;
   justify-content: space-around;
@@ -40,12 +44,12 @@
   vertical-align: middle;
   width: 400px;
   height: 400px;
-  }
-
-.back-drop{
-  position:relative;
 }
-.paper{
+
+.back-drop {
+  position: relative;
+}
+.paper {
   width: 400px;
-  height: 500px
+  height: 500px;
 }
