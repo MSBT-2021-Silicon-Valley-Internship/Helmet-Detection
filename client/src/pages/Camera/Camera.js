@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
+import './Camera.css'
 
 function toScreenshot(e) {
   e.target.setAttribute("src", "https://source.unsplash.com/LYK3ksSQyeo");
@@ -115,13 +116,12 @@ class Camera extends Component {
 
     return (
       <center>
-        <Container
-          id="camera-page"
-          maxWidth="sm"
-          maxHeight="sm"
-          className={useStyles.root}
-        >
           <h1>Capture & Upload</h1>
+          <div className='big-container'>
+            
+          <Paper className={useStyles.paper}>
+        <div className='container'>
+          <div className='box-left'>
           <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
@@ -144,9 +144,11 @@ class Camera extends Component {
               </Fab>
             </Paper>
           </Grid>
+          </div>
                 <br></br>
                 <br></br>
-          <Grid item md="auto">
+          <div className='box-right'>
+          <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
                 <br></br>
@@ -177,9 +179,7 @@ class Camera extends Component {
 
 
               </div>
-              <br></br>
-              <br></br>
-              <RouterLink to={'/result'}>
+          <RouterLink to={'/result'}>
                 <Fab
                   variant="extended"
                   color="secondary"
@@ -190,17 +190,20 @@ class Camera extends Component {
                   Upload
                 </Fab>
               </RouterLink>
+
             </Paper>
           </Grid>
-        </Container>
-
-        <div>
+          </div>
+        </div>
           <div>
             <h2>Result</h2>
             {result && <ReactJson src={result} />}
+            <br/>
+            <br/>
           </div>
-        </div>
-
+          
+          </Paper>
+          </div>
 
       </center>
     );

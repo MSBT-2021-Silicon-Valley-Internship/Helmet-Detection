@@ -34,11 +34,11 @@ class Result extends Component {
       timerId = setTimeout(tick.bind(this), 20);
     }.bind(this), 20);
   }
-  //jsonresult
+  //jsonresult : temp
   componentDidMount = () => {
     const url = "http://localhost:8000/web";
     const options = {
-      method: "post",
+      method: "get",
       body: "test",
     };
     fetch(url, options)
@@ -94,7 +94,7 @@ class Result extends Component {
       <div>
         <button onClick={this.timechange}>progressbutton</button>
       </div>
-      <CircularProgress variant="determinate" value={this.state.timeval}/>
+      <CircularProgress variant="determinate" value={[this.state.timeval]}/>
         </Paper>
         }
         <br></br><br></br>
