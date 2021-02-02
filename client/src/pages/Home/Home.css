@@ -1,19 +1,20 @@
 body {
-  background-color: #1976d2;
-  font-family: "Oswald", sans-serif;
+  background-color: #f2e9de;
+  font-family: "Montserrat", sans-serif;
   text-align: center;
   color: #fff;
 }
 
 button {
   background-color: white;
-  font-family: "Oswald", sans-serif;
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
+  font-family: "Montserrat", sans-serif;
   font-size: 1.25em;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   border: 2px solid black;
-  border-radius: 4px;
-  padding: 12px 44px 12px 44px;
+  border-radius: 10px;
+  padding: 18px 44px 18px 44px;
   color: black;
   -webkit-transition: color 0.5s, background-color 0.5s;
   transition: color 0.5s, background-color 0.5s;
@@ -29,7 +30,8 @@ button:hover {
 #start-page {
   max-width: 100%;
   max-height: 100%;
-  margin-top: 6%;
+  margin-top: 20%;
+  margin-bottom: 10%;
 }
 
 #start-page > h1 {
@@ -39,7 +41,18 @@ button:hover {
 }
 
 #start-page > h2 {
-  font-size: 1.25em;
-  font-weight: 300;
+  font-size: 2em;
+  font-weight: 400;
   margin: 15px 0 20px 0;
+}
+
+#start-button {
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
+
+  font-family: "Montserrat", sans-serif;
+  margin-top: 10%;
+}
+
+#main-paragraph {
+  margin-bottom: 10%;
 }
