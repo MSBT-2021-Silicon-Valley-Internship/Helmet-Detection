@@ -32,6 +32,7 @@ class Camera extends Component {
       changePlaceholder: false,
       open:false,
       webcamopen:true,
+      iscaptured:false,
     };
   }
 
@@ -41,7 +42,7 @@ class Camera extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-    this.setState({ screenshot: imageSrc, changePlaceholder: true });
+    this.setState({ screenshot: imageSrc, changePlaceholder: true , iscaptured:true});
   };
 
   uploadImage = (image) => {
@@ -101,7 +102,9 @@ class Camera extends Component {
   webcamoff = () => {
     this.setState({ webcamopen: !this.state.webcamopen });
   }
-
+  reCapturing = () => {
+    this.setState({ iscaptured:false, changePlaceholder:!this.state.changePlaceholder });
+  }
 
   render() {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
@@ -179,11 +182,26 @@ class Camera extends Component {
                   width={400}
                   ref={this.setRef}
                   screenshotFormat="image/jpg"
-                />):(
+                />)
+                :
+                (
                   <div>{this.state.webcamopen}</div>
                 )}
 
               </div>
+              {this.state.iscaptured?(
+                <Fab
+                variant="extended"
+                color="primary"
+                aria-label="add"
+                className={useStyles.margin}
+                onClick={() => this.reCapturing()}
+              >
+                reCapture
+              </Fab>
+              )
+              :
+              (
               <Fab
                 variant="extended"
                 color="primary"
@@ -193,6 +211,8 @@ class Camera extends Component {
               >
                 Capture
               </Fab>
+              )
+            }    
             </Paper>
 
           </Grid>
@@ -221,8 +241,8 @@ class Camera extends Component {
                 </div> :
                 <div className='img-right'>            
                 <img
-                  src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-                  height={400}
+                  src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
+                  height={300}
                   width={400}
                   alt="placeholder"
                 ></img>
@@ -247,7 +267,7 @@ class Camera extends Component {
               variant="extended"
               color="secondary"
               aria-label="add"
-              className={useStyles.margin}
+              className=''
               onClick={() => timechange()}
             >
               Uploading
@@ -280,6 +300,7 @@ class Camera extends Component {
             >
               webcam on
             </Fab>)}
+            
             <br/>
             <br/>
             <br/>

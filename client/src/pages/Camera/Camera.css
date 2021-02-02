@@ -32,4 +32,12 @@ display: table-cell;
 vertical-align: middle;
   width: 400px;
   height: 400px;
+  }
+
+.back-drop{
+  position:relative;
+}
+.paper{
+  width: 400px;
+  height: 500px
 }
