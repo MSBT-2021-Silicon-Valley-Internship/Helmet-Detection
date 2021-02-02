@@ -205,8 +205,8 @@ class Camera extends Component {
                 </div> :
                 <div className='img-right'>            
                 <img
-                  src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-                  height={400}
+                  src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
+                  height={300}
                   width={400}
                   alt="placeholder"
                 ></img>
@@ -231,7 +231,7 @@ class Camera extends Component {
               variant="extended"
               color="secondary"
               aria-label="add"
-              className={useStyles.margin}
+              className=''
               onClick={() => timechange()}
             >
               Uploading
@@ -264,6 +264,7 @@ class Camera extends Component {
             >
               webcam on
             </Fab>)}
+            
             <br/>
             <br/>
             <br/>
