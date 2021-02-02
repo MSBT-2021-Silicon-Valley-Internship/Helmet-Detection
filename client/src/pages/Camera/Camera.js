@@ -149,7 +149,8 @@ class Camera extends Component {
         <div className='box-container'>
           <div className='box-left'>
           <Grid item md={12}>
-              <div>
+          <Paper className={useStyles.paper}>
+            <div>
                 <Webcam
                   audio={false}
                   height={400}
@@ -167,6 +168,8 @@ class Camera extends Component {
               >
                 Capture
               </Fab>
+            </Paper>
+
           </Grid>
           </div>
 
@@ -179,6 +182,8 @@ class Camera extends Component {
                 <br></br>
           <div className='box-right'>
           <Grid item md={12}>
+            <Paper className={useStyles.paper}>
+
               <div>
                 <br></br>
                 <br></br>
@@ -209,7 +214,7 @@ class Camera extends Component {
               </div>
                 
                 {this.state.timeval > 1000? <RouterLink to={'/result'}>
-<Fab
+                <Fab
                   variant="extended"
                   color="secondary"
                   aria-label="add"
@@ -229,6 +234,7 @@ class Camera extends Component {
               Uploading
             </Fab>}
               <h1>{this.state.timeval}</h1>
+              </Paper>
 
 
           </Grid>
@@ -236,7 +242,7 @@ class Camera extends Component {
         </div>
           
           </div>
-          
+
 <Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
   <CircularProgress color="inherit"  />
 </Backdrop>
