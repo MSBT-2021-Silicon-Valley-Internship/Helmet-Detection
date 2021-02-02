@@ -1,13 +1,23 @@
 import React, { Component } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Webcam from "react-webcam";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
+import Button from "@material-ui/core/Button";
 import "./Camera.css";
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 
 function toScreenshot(e) {
   e.target.setAttribute("src", "https://source.unsplash.com/LYK3ksSQyeo");
@@ -120,7 +130,37 @@ class Camera extends Component {
       divider: {
         margin: theme.spacing(2, 0),
       },
+      backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: "#fff",
+      },
     }));
+
+    function SimpleBackdrop() {
+      const classes = useStyles();
+      const [open, setOpen] = React.useState(false);
+      const handleClose = () => {
+        setOpen(false);
+      };
+      const handleToggle = () => {
+        setOpen(!open);
+      };
+
+      return (
+        <div>
+          <Button variant="outlined" color="primary" onClick={handleToggle}>
+            Show backdrop
+          </Button>
+          <Backdrop
+            className={classes.backdrop}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        </div>
+      );
+    }
 
     return (
       <center>
@@ -188,6 +228,7 @@ class Camera extends Component {
                   Upload
                 </Fab>
               </RouterLink>
+              <SimpleBackdrop />
             </Paper>
           </Grid>
         </Grid>
