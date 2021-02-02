@@ -30,7 +30,8 @@ class Camera extends Component {
       image2: null,
       timeval: 0,
       changePlaceholder: false,
-      open: false,
+      open:false,
+      webcamopen:true,
     };
   }
 
@@ -97,6 +98,10 @@ class Camera extends Component {
         console.log(err);
       });
   };
+  webcamoff = () => {
+    this.setState({ webcamopen: !this.state.webcamopen });
+  }
+
 
   render() {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
@@ -156,103 +161,134 @@ class Camera extends Component {
     };
 
     return (
-      <center>
-        <h1>Capture & Upload</h1>
-        <br></br>
-        <br></br>
-        <div className="big-container">
-          <div className="box-container">
-            <div className="box-left">
-              <Grid item md={12}>
-                <Paper className="paper">
-                  <div>
-                    <Webcam
-                      audio={false}
-                      height={400}
-                      width={400}
-                      ref={this.setRef}
-                      screenshotFormat="image/jpg"
-                    />
-                  </div>
-                  <Fab
-                    variant="extended"
-                    color="primary"
-                    aria-label="add"
-                    onClick={() => this.capture()}
-                  >
-                    Capture
-                  </Fab>
-                </Paper>
-              </Grid>
-            </div>
-            <br></br>
-            <br></br>
-            <div className="box-right">
-              <Grid item md={12}>
-                <Paper className="paper">
-                  <div>
-                    {changePlaceholder ? (
-                      <div className="img-right">
-                        {screenshot && (
-                          <img
-                            padding={10}
-                            src={screenshot}
-                            alt="screenshot"
-                            height={300}
-                            width={400}
-                            alt="placeholder"
-                          ></img>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="img-right">
-                        <img
-                          src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-                          height={400}
-                          width={400}
-                          alt="placeholder"
-                        ></img>
-                      </div>
-                    )}
-                  </div>
+      <div>
+          <h1>Capture & Upload</h1>
+                <br></br>
+                <br></br>
+          <div className='big-container'>
+            
+        <div className='box-container'>
+          <div className='box-left'>
+          <Grid item md={12}>
+          <Paper className='paper'>
+            <div className='img-left'>
+              {this.state.webcamopen?(                
+              <Webcam
+                  audio={false}
+                  height={400}
+                  width={400}
+                  ref={this.setRef}
+                  screenshotFormat="image/jpg"
+                />):(
+                  <div>{this.state.webcamopen}</div>
+                )}
 
-                  {this.state.timeval > 1000 ? (
-                    <RouterLink to={"/result"}>
-                      <Fab
-                        variant="extended"
-                        color="secondary"
-                        aria-label="add"
-                        className={useStyles.margin}
-                        onClick={() => timechange()}
-                      >
-                        upload
-                      </Fab>
-                    </RouterLink>
-                  ) : (
-                    <Fab
-                      variant="extended"
-                      color="secondary"
-                      aria-label="add"
-                      className={useStyles.margin}
-                      onClick={() => timechange()}
-                    >
-                      Uploading
-                    </Fab>
-                  )}
-                </Paper>
-              </Grid>
-            </div>
+              </div>
+              <Fab
+                variant="extended"
+                color="primary"
+                aria-label="add"
+                className={useStyles.margin}
+                onClick={() => this.capture()}
+              >
+                Capture
+              </Fab>
+            </Paper>
+
+          </Grid>
+          </div>
+                <br></br>
+                <br></br>
+          <div className='box-right'>
+          <Grid item md={12}>
+            <Paper className='paper'>
+
+              <div className='img-right-wrapper'>
+              
+                {changePlaceholder?
+                <div className='img-right'>
+                {screenshot && (
+                  <img
+                    padding={10}
+                    src={screenshot}
+                    alt="screenshot"
+                    height={300}
+                    width={400}
+                    margin={50}
+                    alt="placeholder"
+                  ></img>
+                )}
+                </div> :
+                <div className='img-right'>            
+                <img
+                  src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
+                  height={400}
+                  width={400}
+                  alt="placeholder"
+                ></img>
+                </div>
+                }
+
+
+              </div>
+                
+                {this.state.timeval > 1000? <RouterLink to={'/result'}>
+                <Fab
+                  variant="extended"
+                  color="secondary"
+                  aria-label="add"
+                  className={useStyles.margin}
+                  onClick={() => timechange()}
+                >
+                  upload
+                </Fab>
+              </RouterLink>
+              :<Fab
+              variant="extended"
+              color="secondary"
+              aria-label="add"
+              className={useStyles.margin}
+              onClick={() => timechange()}
+            >
+              Uploading
+            </Fab>}
+              </Paper>
+
+
+          </Grid>
           </div>
         </div>
+          
+          </div>
+          
+          {this.state.webcamopen?(          
+          <Fab
+              variant="extended"
+              color="secondary"
+              aria-label="add"
+              className={useStyles.margin}
+              onClick={() =>{this.webcamoff()}}
+            >
+              webcam off
+            </Fab>):(          
+            <Fab
+              variant="extended"
+              color="primary"
+              aria-label="add"
+              className={useStyles.margin}
+              onClick={() =>{this.webcamoff()}}
+            >
+              webcam on
+            </Fab>)}
+            <br/>
+            <br/>
+            <br/>
+      <Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
+        <CircularProgress color="inherit"  />
+      </Backdrop>
 
-        <Backdrop
-          className="back-drop"
-          open={this.state.open}
-          onClick={handleClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </center>
+
+      </div>
     );
   }
 }

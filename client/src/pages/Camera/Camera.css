@@ -1,39 +1,35 @@
-.paper {
-}
 
-.container {
-  display: flex;
-  justify-content: center;
-}
-#box-left {
-  float: left;
-}
-#box-right {
-  float: right;
-}
-
-.header {
-  text-align: center;
-  font-size: 300;
-  margin-top: 10%;
-  margin-bottom: 3%;
-}
-.box-container {
-  display: flex;
+.box-container{
+  display:flex;
   justify-content: space-around;
-  padding: 20px;
+  padding: 100px;
 }
-.box-left {
+.box-left{
+  margin:auto;
   display: block;
   float: left;
   padding: 20px;
 }
-.box-right {
-  display: block;
+.box-right{
+  margin: auto;
   float: right;
   padding: 20px;
 }
-.img-right {
+.img-left{
+
+  width: 400px;
+  height: 400px;
+  display:flex;
+  vertical-align: middle;
+
+}
+.img-right-wrapper{
+  display:table;
+
+}
+.img-right{
+display: table-cell;
+vertical-align: middle;
   width: 400px;
   height: 400px;
 }
