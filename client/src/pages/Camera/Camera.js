@@ -6,6 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
+import Button from '@material-ui/core/Button';
+
+import { Backdrop } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import './Camera.css'
 
 function toScreenshot(e) {
@@ -21,7 +25,9 @@ class Camera extends Component {
       result: null,
       image: null,
       image2: null,
+      timeval:0,
       changePlaceholder: false,
+      open:false,
     };
   }
 
@@ -90,10 +96,6 @@ class Camera extends Component {
       });
   };
 
-  toScreenshot = () => {
-    this.setState(state => ({ open: !state.open}))
-  };
-
   render() {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
 
@@ -113,6 +115,30 @@ class Camera extends Component {
       },
     }));
 
+
+    const handleClose = () => {
+      this.setState(state => ({open : false}))
+    };
+    const handleToggle = () => {
+      this.setState(state => ({open : true}))
+    };
+    const timechange = () => {
+      let timeval = 0;
+      let timerId = setTimeout(function tick() {
+        this.setState({timeval : this.state.timeval + 10,})
+        
+      if(this.state.timeval > 1000){
+        handleClose()
+       return 0; 
+      }
+      else{
+        timerId = setTimeout(tick.bind(this), 20);
+        handleToggle()
+        console.log(this.state.timeval)
+      }
+      }.bind(this), 20);
+    }
+  
     return (
       <center>
           <h1>Capture & Upload</h1>
@@ -120,11 +146,9 @@ class Camera extends Component {
                 <br></br>
           <div className='big-container'>
             
-          <Paper className={useStyles.paper}>
         <div className='box-container'>
           <div className='box-left'>
           <Grid item md={12}>
-            <Paper className={useStyles.paper}>
               <div>
                 <Webcam
                   audio={false}
@@ -143,14 +167,18 @@ class Camera extends Component {
               >
                 Capture
               </Fab>
-            </Paper>
           </Grid>
           </div>
+
+
+
+
+
+
                 <br></br>
                 <br></br>
           <div className='box-right'>
           <Grid item md={12}>
-            <Paper className={useStyles.paper}>
               <div>
                 <br></br>
                 <br></br>
@@ -159,7 +187,6 @@ class Camera extends Component {
                 <div>
                 {screenshot && (
                   <img
-                    onClick={toScreenshot}
                     padding={10}
                     src={screenshot}
                     alt="screenshot"
@@ -180,25 +207,40 @@ class Camera extends Component {
 
 
               </div>
-          <RouterLink to={'/result'}>
-                <Fab
+                
+                {this.state.timeval > 1000? <RouterLink to={'/result'}>
+<Fab
                   variant="extended"
                   color="secondary"
                   aria-label="add"
                   className={useStyles.margin}
-                  onClick={() => this.uploadImage()}
+                  onClick={() => timechange()}
                 >
-                  Upload
+                  upload
                 </Fab>
               </RouterLink>
+              :<Fab
+              variant="extended"
+              color="secondary"
+              aria-label="add"
+              className={useStyles.margin}
+              onClick={() => timechange()}
+            >
+              Uploading
+            </Fab>}
+              <h1>{this.state.timeval}</h1>
 
-            </Paper>
+
           </Grid>
           </div>
         </div>
           
-          </Paper>
           </div>
+          
+<Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
+  <CircularProgress color="inherit"  />
+</Backdrop>
+
 
       </center>
     );

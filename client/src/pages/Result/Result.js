@@ -10,7 +10,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle"
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import ReactJson from "react-json-view";
 import "./Result.css";
@@ -23,18 +22,10 @@ class Result extends Component {
       result: null,
       isSuccess:true,
       imgSrc: '',
-      timeval: 0,
-      isresult:false,
     };
   }
   
-  timechange = () => {
-    let timeval = 0;
-    let timerId = setTimeout(function tick() {
-      this.setState({timeval : this.state.timeval + 10,})
-      timerId = setTimeout(tick.bind(this), 20);
-    }.bind(this), 20);
-  }
+
   //jsonresult : temp
   componentDidMount = () => {
     const url = "http://localhost:8000/web";
@@ -89,14 +80,6 @@ class Result extends Component {
         className={useStyles.root}
       >
         <h1>Result</h1>
-        {this.state.isresult?<div></div>:
-        <Paper className={useStyles.paper} elevation={3}>
-      <div>
-        <button onClick={this.timechange}>progressbutton</button>
-      </div>
-      <CircularProgress variant="determinate" value={this.state.timeval}/>
-        </Paper>
-        }
         <br></br><br></br>
         {this.state.isSuccess?(
         <Alert className={useStyles.alert} severity="success">
