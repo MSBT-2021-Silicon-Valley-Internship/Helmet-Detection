@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
+import "./Camera.css";
 
 function toScreenshot(e) {
   e.target.setAttribute("src", "https://source.unsplash.com/LYK3ksSQyeo");
@@ -39,7 +40,6 @@ class Camera extends Component {
     const data = new FormData();
 
     const imageSrc = this.webcam.getScreenshot();
-
     fetch(imageSrc)
       .then((res) => res.blob())
       .then((blob) => {
@@ -101,29 +101,36 @@ class Camera extends Component {
       root: {
         flexGrow: 1,
       },
-      paper: {
-        padding: theme.spacing(10),
-        margin: theme.spacing(5),
-        textAlign: "center",
-        color: theme.palette.text.secondary,
+      container: {
+        display: "grid",
+        gridTemplateColumns: "repeat(12, 1fr)",
+        gridGap: theme.spacing(4),
+        justifyContent: "center",
       },
-      margin: {
-        margin: theme.spacing(1),
+
+      paper: {
         padding: theme.spacing(1),
+        margin: theme.spacing(5),
+        width: theme.spacing(20),
+        height: theme.spacing(20),
+        elevation: 3,
+        color: theme.palette.text.secondary,
+        whiteSpace: "nowrap",
+      },
+      divider: {
+        margin: theme.spacing(2, 0),
       },
     }));
 
     return (
       <center>
-        <Container
-          id="camera-page"
-          maxWidth="sm"
-          maxHeight="sm"
-          className={useStyles.root}
-        >
+        <div className="header">
           <h1>Capture & Upload</h1>
-          <Grid item md={12}>
-            <Paper className={useStyles.paper}>
+        </div>
+
+        <Grid container spacing={3}>
+          <Grid item md={6}>
+            <Paper id="box-left" className={useStyles.paper}>
               <div>
                 <Webcam
                   audio={false}
@@ -137,17 +144,14 @@ class Camera extends Component {
                 variant="extended"
                 color="primary"
                 aria-label="add"
-                className={useStyles.margin}
                 onClick={() => this.capture()}
               >
                 Capture
               </Fab>
             </Paper>
           </Grid>
-          <br></br>
-          <br></br>
-          <Grid item md="auto">
-            <Paper className={useStyles.paper}>
+          <Grid item md={6}>
+            <Paper id="box-right" className={useStyles.paper}>
               <div>
                 {changePlaceholder ? (
                   <div>
@@ -157,9 +161,11 @@ class Camera extends Component {
                         padding={10}
                         src={screenshot}
                         alt="screenshot"
-                        height={400}
+                        height={300}
                         width={400}
-                      />
+                        margin={50}
+                        alt="placeholder"
+                      ></img>
                     )}
                   </div>
                 ) : (
@@ -167,12 +173,11 @@ class Camera extends Component {
                     src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
                     height={400}
                     width={400}
-                    margin={50}
                     alt="placeholder"
                   ></img>
                 )}
               </div>
-              <RouterLink to="/result">
+              <RouterLink to={"/result"}>
                 <Fab
                   variant="extended"
                   color="secondary"
@@ -185,14 +190,7 @@ class Camera extends Component {
               </RouterLink>
             </Paper>
           </Grid>
-        </Container>
-
-        <div>
-          <div>
-            <h2>Result</h2>
-            {result && <ReactJson src={result} />}
-          </div>
-        </div>
+        </Grid>
       </center>
     );
   }

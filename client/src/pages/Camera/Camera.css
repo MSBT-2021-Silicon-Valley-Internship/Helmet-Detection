@@ -11,3 +11,22 @@
   font-size: 4em;
   font-weight: 500;
 }
+
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+#box-left {
+  float: left;
+}
+#box-right {
+  float: right;
+}
+
+.header {
+  text-align: center;
+  font-size: 300;
+  margin-top: 10%;
+  margin-bottom: 3%;
+}
