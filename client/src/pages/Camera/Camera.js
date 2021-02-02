@@ -28,6 +28,7 @@ class Camera extends Component {
       timeval:0,
       changePlaceholder: false,
       open:false,
+      webcamopen:true,
     };
   }
 
@@ -95,6 +96,10 @@ class Camera extends Component {
         console.log(err);
       });
   };
+  webcamoff = () => {
+    this.setState({ webcamopen: !this.state.webcamopen });
+  }
+
 
   render() {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
@@ -140,7 +145,7 @@ class Camera extends Component {
     }
   
     return (
-      <center>
+      <div>
           <h1>Capture & Upload</h1>
                 <br></br>
                 <br></br>
@@ -150,14 +155,18 @@ class Camera extends Component {
           <div className='box-left'>
           <Grid item md={12}>
           <Paper className='paper'>
-            <div>
-                <Webcam
+            <div className='img-left'>
+              {this.state.webcamopen?(                
+              <Webcam
                   audio={false}
                   height={400}
                   width={400}
                   ref={this.setRef}
                   screenshotFormat="image/jpg"
-                />
+                />):(
+                  <div>{this.state.webcamopen}</div>
+                )}
+
               </div>
               <Fab
                 variant="extended"
@@ -235,13 +244,32 @@ class Camera extends Component {
         </div>
           
           </div>
+          {this.state.webcamopen?(          
+          <Fab
+              variant="extended"
+              color="secondary"
+              aria-label="add"
+              className={useStyles.margin}
+              onClick={() =>{this.webcamoff()}}
+            >
+              webcam off
+            </Fab>):(          
+            <Fab
+              variant="extended"
+              color="primary"
+              aria-label="add"
+              className={useStyles.margin}
+              onClick={() =>{this.webcamoff()}}
+            >
+              webcam on
+            </Fab>)}
 
       <Backdrop className='back-drop' open={this.state.open} onClick={handleClose}>
         <CircularProgress color="inherit"  />
       </Backdrop>
 
 
-      </center>
+      </div>
     );
   }
 }

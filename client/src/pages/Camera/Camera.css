@@ -1,21 +1,32 @@
-.paper{
-}
+
 .box-container{
   display:flex;
   justify-content: space-around;
   padding: 20px;
 }
 .box-left{
+  margin:auto;
   display: block;
   float: left;
   padding: 20px;
 }
 .box-right{
-  display:block;
+  margin: auto;
   float: right;
   padding: 20px;
 }
-.img-right{
+.img-left{
+
   width: 400px;
   height: 400px;
+  display:flex;
+  vertical-align: middle;
+
+}
+.img-right{
+
+  width: 400px;
+  height: 400px;
+  display:flex;
+  vertical-align: middle;
   }
