@@ -5,8 +5,16 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import Fab from "@material-ui/core/Fab";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
+import ReactJson from "react-json-view";
 import "./Result.css";
+import { Button } from "@material-ui/core";
+import Navigation from "../Navigation/Navigation";
 
 class Result extends Component {
   constructor(props) {
@@ -18,31 +26,21 @@ class Result extends Component {
     };
   }
 
+  //jsonresult : temp
+  componentDidMount = () => {
+    const url = "http://localhost:8000/web";
+    const options = {
+      method: "get",
+    };
+    fetch(url, options).then((res) => {
+      console.log(res);
+      this.setState({ isresult: true });
+      console.log(this.state.isresult);
+    });
+  };
+
   render() {
     const { result, imgSrc } = this.state;
-
-    const params = this.props.match.params.screenshot;
-    console.log(this.props.match);
-    console.log(this.props.match.path);
-    console.log(this.props.match.url);
-    console.log(this.props.match.params);
-    console.log(this.props.match.params.screenshot);
-    console.log(params);
-
-    //fetch get json example
-    const testChange = () => {
-      this.setState({ isSuccess: !this.state.isSuccess });
-    };
-
-    //json result
-    const jsonInput = () => {
-      const url = "http://localhost:8000/web";
-      fetch(url)
-        .then((res) => res.json())
-        .then((res) => res.body)
-        .then((body) => body.confidence)
-        .then((confidence) => {});
-    };
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -66,45 +64,53 @@ class Result extends Component {
       },
     }));
 
+    //fetch get json example
+    const testChange = () => {
+      this.setState({ isSuccess: !this.state.isSuccess });
+    };
+
     return (
-      <Container
-        id="result-page"
-        maxWidth="sm"
-        maxHeight="sm"
-        className={useStyles.root}
-      >
-        <h1>Result</h1>
-        <Paper className={useStyles.paper} elevation={3}>
-          <img
-            src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-            height={400}
-            width={400}
-            alt="placeholder"
-          ></img>
-        </Paper>
-        <br></br>
-        <br></br>
-        {this.state.isSuccess ? (
-          <Alert className={useStyles.alert} severity="info">
-            <AlertTitle>SUCCESS</AlertTitle>
-            헬멧 인식에 성공했습니다! —{" "}
-            <Link to="/">
-              <strong>Home으로 돌아가기</strong>
-            </Link>
-          </Alert>
-        ) : (
-          <Alert className={useStyles.alert} severity="error">
-            <AlertTitle>FAIL</AlertTitle>
-            헬멧 인식에 실패했습니다! —{" "}
-            <Link to="/">
-              <strong>Home으로 돌아가기</strong>
-            </Link>
-          </Alert>
-        )}
-        <Button onClick={testChange} color="primary">
-          SUCCESS/FAIL TEST
-        </Button>
-      </Container>
+      <div>
+        <Navigation />
+
+        <Container
+          id="result-page"
+          maxWidth="sm"
+          maxHeight="sm"
+          className={useStyles.root}
+        >
+          <h1>Result</h1>
+          <br></br>
+          <br></br>
+          {this.state.isSuccess ? (
+            <Alert className={useStyles.alert} severity="success">
+              <AlertTitle>Success</AlertTitle>
+              헬멧 인식에 성공했습니다! —{" "}
+              <Link to="/">
+                <strong>Home으로 돌아가기</strong>
+              </Link>
+            </Alert>
+          ) : (
+            <Alert className={useStyles.alert} severity="error">
+              <AlertTitle>FAIL</AlertTitle>
+              헬멧 인식에 실패했습니다! —{" "}
+              <Link to="/">
+                <strong>Home으로 돌아가기</strong>
+              </Link>
+            </Alert>
+          )}
+          <Button onClick={testChange} color="secondary">
+            suc/fail test
+          </Button>
+
+          <div>
+            <h2>Result</h2>
+            {result && <ReactJson src={result} />}
+            <br />
+            <br />
+          </div>
+        </Container>
+      </div>
     );
   }
 }

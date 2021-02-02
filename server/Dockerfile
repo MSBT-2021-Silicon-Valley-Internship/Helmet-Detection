@@ -18,6 +18,7 @@ RUN pip install gsutil
 
 # Create working directory
 # setting working dir inside container
+RUN ls
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
