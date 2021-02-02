@@ -5,25 +5,28 @@ body {
   color: #fff;
 }
 
-button {
-  background-color: white;
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.25em;
-  font-weight: 500;
+.start-button {
+  background: #8ecacc;
+  color: white;
+  border-radius: 5px;
+  padding: 0.4rem 0.5rem;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 18px 44px 18px 44px;
-  color: black;
+  font-family: "Montserrat", sans-serif;
   -webkit-transition: color 0.5s, background-color 0.5s;
   transition: color 0.5s, background-color 0.5s;
   cursor: pointer;
 }
 
-button:hover {
+.start-button:hover {
   background-color: black;
   color: white;
+}
+
+#start-button {
+  margin: 5%;
 }
 
 /* Start Page */
@@ -44,13 +47,6 @@ button:hover {
   font-size: 2em;
   font-weight: 400;
   margin: 15px 0 20px 0;
-}
-
-#start-button {
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
-
-  font-family: "Montserrat", sans-serif;
-  margin-top: 10%;
 }
 
 #main-paragraph {

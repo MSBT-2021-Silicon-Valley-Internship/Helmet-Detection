@@ -55,7 +55,7 @@ export function HorizontalLabelPositionBelowStepper() {
   };
 
   return (
-    <Container>
+    <Container maxWidth="md">
       <div className={classes.root}>
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label) => (

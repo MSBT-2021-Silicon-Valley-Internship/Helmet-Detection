@@ -19,12 +19,14 @@ const Home = () => {
           <h2>Be aware of Safety!</h2>
         </div>
         <HorizontalLabelPositionBelowStepper />
-        <Link to="/camera">
-          <button id="start-button">START!</button>
-        </Link>
+        <div id="start-button">
+          <Link to="/camera">
+            <button className="start-button">START!</button>
+          </Link>
+        </div>
+
         <ClickButton />
       </div>
-      <div id="start-button"></div>
     </div>
   );
 };
