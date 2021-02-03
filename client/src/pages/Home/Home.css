@@ -12,7 +12,7 @@ body {
   padding: 0.4rem 0.5rem;
   font-weight: 600;
   font-size: 18px;
-  letter-spacing: 1px;
+  letter-spacing: 5px;
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
   -webkit-transition: color 0.5s, background-color 0.5s;
@@ -50,5 +50,5 @@ body {
 }
 
 #main-paragraph {
-  margin-bottom: 10%;
+  margin-bottom: 5%;
 }

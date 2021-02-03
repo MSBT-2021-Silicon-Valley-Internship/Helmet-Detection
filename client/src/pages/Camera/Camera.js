@@ -138,7 +138,7 @@ class Camera extends Component {
 
           if (this.state.timeval > 1000) {
             handleClose();
-            return 0;
+            return this.props.history.push("/result");
           } else {
             timerId = setTimeout(tick.bind(this), 20);
             handleToggle();
