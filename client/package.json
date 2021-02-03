@@ -44,8 +44,6 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.11.3",
-    "cross-env": "^7.0.3",
-    "react-json-view": "^1.20.4",
     "react-webcam": "^5.2.2"
   }
 }

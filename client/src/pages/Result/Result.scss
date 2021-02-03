@@ -1,6 +1,6 @@
 body {
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
-  font-family: "Montserrat", sans-serif;
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+  font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   line-height: 1.45;
   color: #0f1108;
@@ -10,8 +10,8 @@ body {
   margin-bottom: 1%;
 }
 .header > h1 {
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
-  font-family: "Montserrat", sans-serif;
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+  font-family: 'Montserrat', sans-serif;
   font-size: 600;
   font-weight: 600;
   line-height: 1.15;
@@ -20,14 +20,14 @@ body {
 }
 
 .header > h2 {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 300;
   font-weight: 300;
 }
 
 .image-box {
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
-  font-family: "Montserrat", sans-serif;
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   justify-content: space-around;
   padding: 50px;
@@ -41,10 +41,7 @@ body {
 }
 
 .alert-box {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   display: flex;
   justify-content: space-around;
-}
-
-.button-box {
 }

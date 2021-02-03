@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 const { useState, useRef, useEffect, useLayoutEffect, createContext } = React;
 
@@ -140,8 +140,6 @@ export class ClickButton extends React.Component {
     return (
       <div className={appClass} style={screenStyle}>
         <section className="container">
-          
-
           <button className="debug-button" onClick={this.handleToggleDebug}>
             Debug
           </button>
@@ -240,9 +238,8 @@ const Grabber = ({ state, gameOver, extended, onCursorGrabbed }) => {
   // Ensure value is within acceptable range (-75 to 75)
   const rotation = Math.min(Math.max(parseInt(angle), -79), 79);
 
-  const grabberClass = `grabber grabber--${state} ${
-    extended && "grabber--extended"
-  }`;
+  const grabberClass = `grabber grabber--${state} ${extended && "grabber--extended"
+    }`;
   const wrapperStyle = { transform: `rotate(${rotation}deg)` };
 
   let handImageSrc = ASSETS[state];
@@ -250,13 +247,14 @@ const Grabber = ({ state, gameOver, extended, onCursorGrabbed }) => {
   return (
     <div className={grabberClass}>
       <div className="grabber__body"></div>
-      <img className="grabber__face" src={ASSETS.head} />
+      <img className="grabber__face" src={ASSETS.head} alt="grabber__face" />
       <div className="grabber__arm-wrapper" ref={ref} style={wrapperStyle}>
         <div className="grabber__arm">
           <img
             className="grabber__hand"
             src={handImageSrc}
             onMouseEnter={onCursorGrabbed}
+            alt="grabber__hand"
           />
         </div>
       </div>

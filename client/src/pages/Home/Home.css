@@ -1,6 +1,6 @@
 body {
   background-color: #f2e9de;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   text-align: center;
   color: #fff;
 }
@@ -14,7 +14,7 @@ body {
   font-size: 18px;
   letter-spacing: 5px;
   text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   -webkit-transition: color 0.5s, background-color 0.5s;
   transition: color 0.5s, background-color 0.5s;
   cursor: pointer;

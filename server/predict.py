@@ -1,6 +1,3 @@
-import json
-import time
-from collections import OrderedDict
 from pathlib import Path
 
 import cv2
@@ -11,14 +8,14 @@ from models.experimental import attempt_load
 from utils.datasets import LoadImages
 from utils.general import check_img_size, non_max_suppression, scale_coords, set_logging
 from utils.plots import plot_one_box
-from utils.torch_utils import select_device, time_synchronized
+from utils.torch_utils import select_device
 
 
 def predict(source):
     weights = 'yolov5s_helmet.pt'
     imgsz = 640
     save_dir = Path('output')
-    result = OrderedDict()
+    result = ''
 
     # Initialize
     set_logging()
@@ -40,7 +37,6 @@ def predict(source):
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
     # Run inference
-    t0 = time.time()
     img = torch.zeros((1, 3, imgsz, imgsz), device=device)  # init img
     _ = model(img.half() if half else img) if device.type != 'cpu' else None  # run once
     for path, img, im0s, vid_cap in dataset:
@@ -51,12 +47,10 @@ def predict(source):
             img = img.unsqueeze(0)
 
         # Inference
-        t1 = time_synchronized()
         pred = model(img, augment=False)[0]
 
         # Apply NMS
-        pred = non_max_suppression(pred, 0.25, 0.45, classes=None, agnostic=False)
-        t2 = time_synchronized()
+        pred = non_max_suppression(pred, 0.5, 0.45, classes=None, agnostic=False)
 
         # Process detections
         for i, det in enumerate(pred):  # detections per image
@@ -81,20 +75,13 @@ def predict(source):
                     label = f'{names[int(cls)]} {conf:.2f}'
                     plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
 
-                # Write json
-                result["Helmet"] = "True"
+                result = "True"
             else:
-                result["Helmet"] = "False"
-
-            # Print time (inference + NMS)
-            print(f'{s}Done. ({t2 - t1:.3f}s)')
+                result = "False"
 
             # Save results (image with detections)
             if save_img:
                 if dataset.mode == 'image':
                     cv2.imwrite(save_path, im0)
 
-    print(f"Results saved to {save_path}")
-    print(f'Done. ({time.time() - t0:.3f}s)')
-    result = json.dumps(result, indent="\t")
     return result

@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-import ReactJson from "react-json-view";
-import { Button } from "@material-ui/core";
 import Navigation from "../Navigation/Navigation";
 import "./Result.scss";
 
@@ -13,27 +11,35 @@ class Result extends Component {
     super(props);
     this.state = {
       result: null,
-      isSuccess: true,
-      imgSrc: "",
+      imgSrc: null,
     };
+
+    this.handleDownload = this.handleDownload.bind(this);
   }
 
-  //jsonresult : temp
+  handleDownload = () => {
+    fetch('http://localhost:8000/api/download', {
+      method: 'GET'
+    }
+    ).then(response => {
+      if (response.status === 200) {
+        (response.json()).then((data) => {
+          const image = data['imgSrc'];
+          const imgSrc = 'data:image/png;base64,' + image;
+
+          this.setState({ result: data['Result'], imgSrc: imgSrc });
+        })
+      }
+    }).catch((error) => {
+      console.log("Error in download", error);
+    })
+  };
+
   componentDidMount = () => {
-    const url = "http://localhost:8000/web";
-    const options = {
-      method: "get",
-    };
-    fetch(url, options).then((res) => {
-      console.log(res);
-      this.setState({ isresult: true });
-      console.log(this.state.isresult);
-    });
+    this.handleDownload();
   };
 
   render() {
-    const { result, imgSrc } = this.state;
-
     const useStyles = makeStyles((theme) => ({
       root: {
         flexGrow: 1,
@@ -57,11 +63,6 @@ class Result extends Component {
       },
     }));
 
-    //fetch get json example
-    const testChange = () => {
-      this.setState({ isSuccess: !this.state.isSuccess });
-    };
-
     return (
       <div>
         <Navigation />
@@ -73,9 +74,8 @@ class Result extends Component {
         </div>
         <div className="image-box">
           <Paper className="paper">
-            {result && <ReactJson src={result} />}
             <img
-              src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
+              src={this.state.imgSrc}
               height={300}
               width={400}
               alt="placeholder"
@@ -83,7 +83,7 @@ class Result extends Component {
           </Paper>
         </div>
         <div className="alert-box">
-          {this.state.isSuccess ? (
+          {this.state.result === "True" ? (
             <Alert className={useStyles.alert} severity="success">
               <AlertTitle>Success</AlertTitle>
               헬멧 인식에 <b>성공</b>했습니다! —{" "}
@@ -92,19 +92,14 @@ class Result extends Component {
               </Link>
             </Alert>
           ) : (
-            <Alert className={useStyles.alert} severity="error">
-              <AlertTitle>FAIL</AlertTitle>
+              <Alert className={useStyles.alert} severity="error">
+                <AlertTitle>FAIL</AlertTitle>
               헬멧 인식에 <b>실패</b>했습니다! —{" "}
-              <Link to="/">
-                <strong>Home으로 돌아가기</strong>
-              </Link>
-            </Alert>
-          )}
-        </div>
-        <div className="button-box">
-          <Button onClick={testChange} color="secondary">
-            SUCCESS/FAIL TEST
-          </Button>
+                <Link to="/">
+                  <strong>Home으로 돌아가기</strong>
+                </Link>
+              </Alert>
+            )}
         </div>
       </div>
     );
