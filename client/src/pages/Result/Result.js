@@ -12,7 +12,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import ReactJson from "react-json-view";
-import "./Result.css";
+import "./Result.scss";
 import { Button } from "@material-ui/core";
 import Navigation from "../Navigation/Navigation";
 
@@ -81,6 +81,12 @@ class Result extends Component {
         >
           <h1>Result</h1>
           <br></br>
+          <img
+            src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
+            height={300}
+            width={400}
+            alt="placeholder"
+          ></img>
           <br></br>
           {this.state.isSuccess ? (
             <Alert className={useStyles.alert} severity="success">

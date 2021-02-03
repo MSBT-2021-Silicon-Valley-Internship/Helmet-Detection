@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 
-import "./Camera.css";
+import "./Camera.scss";
 import Navigation from "../Navigation/Navigation";
 
 function toScreenshot(e) {
@@ -226,7 +226,6 @@ class Camera extends Component {
                             height={300}
                             width={400}
                             margin={50}
-                            alt="placeholder"
                           ></img>
                         )}
                       </div>

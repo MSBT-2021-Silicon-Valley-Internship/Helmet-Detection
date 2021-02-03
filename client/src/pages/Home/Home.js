@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { ClickButton } from "./ClickButton.js";
 import { HorizontalLabelPositionBelowStepper } from "./Stepper";
-import "./Home.css";
+import "./Home.scss";
 import "./ClickButton.scss";
 import Navigation from "../Navigation/Navigation.js";
 
