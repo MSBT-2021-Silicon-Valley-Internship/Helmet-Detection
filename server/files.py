@@ -9,6 +9,8 @@ DOWNLOAD_FOLDER = 'output'
 
 
 def upload(file):
+    os.makedirs(os.path.join('input'))
+    os.makedirs(os.path.join('output'))
     prefix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
     filename = "_".join([prefix, file.filename])
     filepath = os.path.join(UPLOAD_FOLDER, filename)
