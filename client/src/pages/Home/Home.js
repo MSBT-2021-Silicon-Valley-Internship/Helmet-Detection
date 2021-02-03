@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ClickButton } from "./ClickButton.js";
 import { HorizontalLabelPositionBelowStepper } from "./Stepper";
-import "./Home.css";
-import "./ClickButton.scss";
+import "./Home.scss";
 import Navigation from "../Navigation/Navigation.js";
 
 const Home = () => {
@@ -19,14 +17,12 @@ const Home = () => {
           <h1>Helmet Detection AI</h1>
           <h2>Be aware of Safety!</h2>
         </div>
-
-        <div id="start-button">
-          <Link to="/camera">
-            <button className="start-button">START!</button>
-          </Link>
+        <div className="stepper">
+          <HorizontalLabelPositionBelowStepper />
         </div>
-        <HorizontalLabelPositionBelowStepper />
-        <ClickButton />
+        <Link to="/camera">
+          <button className="start-button">START!</button>
+        </Link>
       </div>
     </div>
   );

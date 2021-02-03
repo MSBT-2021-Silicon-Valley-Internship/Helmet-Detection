@@ -9,6 +9,7 @@ body {
 .header-box {
   margin-bottom: 1%;
 }
+
 .header > h1 {
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
   font-family: 'Montserrat', sans-serif;
@@ -16,7 +17,7 @@ body {
   font-weight: 600;
   line-height: 1.15;
   color: #0f1108;
-  margin-top: 10%;
+  margin-top: 2%;
 }
 
 .header > h2 {
@@ -33,15 +34,16 @@ body {
   padding: 50px;
 }
 
-.paper {
+.result-paper {
   position: relative;
   z-index: 1;
   width: 400px;
-  height: 500px;
+  height: 300px;
 }
 
 .alert-box {
   font-family: 'Montserrat';
   display: flex;
   justify-content: space-around;
+  padding: 50px;
 }

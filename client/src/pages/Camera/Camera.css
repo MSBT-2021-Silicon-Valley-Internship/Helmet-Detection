@@ -1,5 +1,9 @@
 .header {
-  margin-top: 10%;
+  margin-top: 2%;
+}
+
+.header-top {
+  margin-top: 2%;
 }
 
 .header > h1 {
@@ -17,7 +21,9 @@
 .box-container {
   display: flex;
   justify-content: space-around;
-  padding: 50px;
+  padding: 1%;
+  padding-right: 100px;
+  padding-left: 100px;
 }
 .box-left {
   margin: auto;

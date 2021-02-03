@@ -73,7 +73,7 @@ class Result extends Component {
           </div>
         </div>
         <div className="image-box">
-          <Paper className="paper">
+          <Paper className="result-paper">
             <img
               src={this.state.imgSrc}
               height={300}
@@ -88,7 +88,7 @@ class Result extends Component {
               <AlertTitle>Success</AlertTitle>
               헬멧 인식에 <b>성공</b>했습니다! —{" "}
               <Link to="/">
-                <strong>Home으로 돌아가기</strong>
+                <strong>Home</strong>
               </Link>
             </Alert>
           ) : (
@@ -96,7 +96,7 @@ class Result extends Component {
                 <AlertTitle>FAIL</AlertTitle>
               헬멧 인식에 <b>실패</b>했습니다! —{" "}
                 <Link to="/">
-                  <strong>Home으로 돌아가기</strong>
+                  <strong>Home</strong>
                 </Link>
               </Alert>
             )}

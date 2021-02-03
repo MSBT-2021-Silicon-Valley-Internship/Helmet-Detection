@@ -6,12 +6,11 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import "./Home.css";
+import "./Home.scss";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    fontFamily: "Monospace",
   },
   backButton: {
     marginRight: theme.spacing(2),

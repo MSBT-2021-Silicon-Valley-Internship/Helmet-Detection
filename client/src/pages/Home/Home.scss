@@ -1,0 +1,125 @@
+body {
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+  background-color: #f2e9de;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  color: #0f1108;
+  line-height: 1.45;
+}
+
+.start-button {
+  background: #8ecacc;
+  color: white;
+  border-style: none;
+  border-radius: 5px;
+  padding: 0.4rem 0.5rem;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-transition: color 0.5s, background-color 0.5s;
+  transition: color 0.5s, background-color 0.5s;
+  cursor: pointer;
+  margin-top: 5%;
+}
+
+.start-button:hover {
+  background-color: black;
+  color: white;
+}
+
+/* Start Page */
+#start-page {
+  max-width: 100%;
+  max-height: 100%;
+  margin-top: 5%;
+}
+
+#start-page > h1 {
+  font-size: 3.3em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+#start-page > h2 {
+  font-size: 2em;
+  font-weight: 400;
+  margin: 15px 0 20px 0;
+}
+
+html {
+  font-size: 18px;
+
+  @media (min-width: 900px) {
+    font-size: 24px;
+  }
+}
+
+h1 {
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+  font-size: 2.2rem;
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.15;
+
+  @media (min-width: 900px) {
+    font-size: 2.488rem;
+  }
+}
+
+h2 {
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  line-height: 1.15;
+  font-weight: 200;
+
+  @media (min-width: 900px) {
+    margin: 1rem 0;
+    font-size: 1.44rem;
+  }
+}
+
+p {
+  margin-top: 0.25rem;
+
+  @media (min-width: 900px) {
+    margin-top: 0.5rem;
+  }
+}
+
+a {
+  color: #0f1108;
+  text-decoration: none;
+  border-bottom: currentcolor 1px solid;
+}
+
+// General modules
+.container {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 1rem 100px 1rem;
+
+  @media (min-width: 900px) {
+    max-width: 650px;
+    padding: 0 1rem 90px 1rem;
+  }
+}
+
+// Full-screen wrapper
+.app {
+  position: relative;
+  background: #f2e9de;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 2rem);
+  margin: 1rem;
+  overflow: hidden;
+}
+
+.stepper {
+  margin-top: 5%;
+}
