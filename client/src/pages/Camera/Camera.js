@@ -105,7 +105,7 @@ class Camera extends Component {
   reCapturing = () => {
     this.setState({
       iscaptured: false,
-      timeval:0,
+      timeval: 0,
       changePlaceholder: !this.state.changePlaceholder,
     });
   };
@@ -114,15 +114,11 @@ class Camera extends Component {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
 
     const useStyles = makeStyles((theme) => ({
-      root: {
-      },
-      container: {
-      },
+      root: {},
+      container: {},
 
-      paper: {
-      },
-      divider: {
-      },
+      paper: {},
+      divider: {},
       backdrop: {
         color: "#fff",
       },
@@ -224,7 +220,7 @@ class Camera extends Component {
                             alt="screenshot"
                             height={300}
                             width={400}
-                            margin={50}                            
+                            margin={50}
                           ></img>
                         )}
                       </div>
@@ -267,12 +263,12 @@ class Camera extends Component {
               </Grid>
             </div>
           </div>
-        </div>  
+        </div>
 
         {this.state.webcamopen ? (
           <Fab
             variant="extended"
-            color="secondary"
+            color="warning"
             aria-label="add"
             className={useStyles.margin}
             onClick={() => {
@@ -284,7 +280,7 @@ class Camera extends Component {
         ) : (
           <Fab
             variant="extended"
-            color="primary"
+            color="error"
             aria-label="add"
             className={useStyles.margin}
             onClick={() => {
@@ -298,13 +294,10 @@ class Camera extends Component {
         <br />
         <br />
         <br />
-        <div className = 'back-drop'>
-        <Backdrop
-          open={this.state.open}
-          onClick={handleClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <div className="back-drop">
+          <Backdrop open={this.state.open} onClick={handleClose}>
+            <CircularProgress color="primary" size={150} />
+          </Backdrop>
         </div>
       </div>
     );
