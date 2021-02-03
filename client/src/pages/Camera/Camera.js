@@ -142,7 +142,7 @@ class Camera extends Component {
 
           if (this.state.timeval > 1000) {
             handleClose();
-            return this.props.history.push('/result')
+            this.props.history.push('/result')
 
           } else {
             timerId = setTimeout(tick.bind(this), 20);
@@ -225,7 +225,7 @@ class Camera extends Component {
                             alt="screenshot"
                             height={300}
                             width={400}
-                            margin={50}
+                            margin={50}                            
                           ></img>
                         )}
                       </div>

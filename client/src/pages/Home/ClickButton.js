@@ -263,6 +263,3 @@ const Grabber = ({ state, gameOver, extended, onCursorGrabbed }) => {
     </div>
   );
 };
-
-// Render app
-// ReactDOM.render(<App />, document.getElementById("app"));

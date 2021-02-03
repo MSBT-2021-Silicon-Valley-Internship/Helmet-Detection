@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   backButton: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(2),
   },
   instructions: {
     marginTop: theme.spacing(1),
