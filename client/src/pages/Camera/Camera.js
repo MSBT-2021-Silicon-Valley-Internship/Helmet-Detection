@@ -7,14 +7,8 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
-
 import "./Camera.scss";
 import Navigation from "../Navigation/Navigation";
-
-function toScreenshot(e) {
-  e.target.setAttribute("src", "https://source.unsplash.com/LYK3ksSQyeo");
-  e.target.setAttribute("alt", "screenshot");
-}
 
 class Camera extends Component {
   constructor(props) {
@@ -30,6 +24,8 @@ class Camera extends Component {
       webcamopen: true,
       iscaptured: false,
     };
+
+    this.handleUpload = this.handleUpload.bind(this);
   }
 
   setRef = (webcam) => {
@@ -45,63 +41,43 @@ class Camera extends Component {
     });
   };
 
-  uploadImage = (image) => {
-    const url = "http://localhost:8000/images";
+  dataURItoBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ab], { type: mimeString });
+  };
+
+  handleUpload = () => {
+    const file = this.dataURItoBlob(this.state.screenshot);
     const data = new FormData();
+    data.append('file', file, 'face.png')
 
-    const imageSrc = this.webcam.getScreenshot();
-    fetch(imageSrc)
-      .then((res) => res.blob())
-      .then((blob) => {
-        data.append("file", blob, "face3.jpg");
-
-        const options = {
-          method: "post",
-          body: data,
-        };
-
-        fetch(url, options)
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            this.setState({
-              result: res,
-            });
-          });
-      });
+    fetch('http://localhost:8000/api/upload', {
+      method: 'POST',
+      body: data
+    }
+    ).then((response) => {
+      if (response.status === 200) {
+        response.json().then(
+          data => console.log(data['Response'])
+        )
+      }
+    }).catch((error) => {
+      console.log('Error in upload', error)
+    })
   };
 
-  showImage = () => {
-    const url = "http://localhost:8000/web";
-
-    fetch(url)
-      .then((response) => {
-        console.log(response);
-        return response.blob();
-      })
-      .then((blob) => {
-        console.log(blob);
-        var reader = new FileReader();
-
-        reader.onload = function () {
-          var base64data = reader.result;
-          console.log(base64data);
-        };
-        reader.readAsDataURL(blob);
-        this.setState({
-          image: reader,
-          image2: reader.result,
-        });
-        console.log(reader);
-        console.log(reader.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   webcamoff = () => {
     this.setState({ webcamopen: !this.state.webcamopen });
   };
+
   reCapturing = () => {
     this.setState({
       iscaptured: false,
@@ -111,9 +87,7 @@ class Camera extends Component {
   };
 
   render() {
-    const { screenshot, result, image, image2, changePlaceholder } = this.state;
-
-    const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles(() => ({
       root: {},
       container: {},
 
@@ -125,13 +99,14 @@ class Camera extends Component {
     }));
 
     const handleClose = () => {
-      this.setState((state) => ({ open: false }));
+      this.setState(() => ({ open: false }));
     };
+
     const handleToggle = () => {
-      this.setState((state) => ({ open: true }));
+      this.setState(() => ({ open: true }));
     };
+
     const timechange = () => {
-      let timeval = 0;
       let timerId = setTimeout(
         function tick() {
           this.setState({ timeval: this.state.timeval + 10 });
@@ -178,8 +153,8 @@ class Camera extends Component {
                         screenshotFormat="image/jpg"
                       />
                     ) : (
-                      <div>{this.state.webcamopen}</div>
-                    )}
+                        <div>{this.state.webcamopen}</div>
+                      )}
                   </div>
                   {this.state.iscaptured ? (
                     <Fab
@@ -192,16 +167,16 @@ class Camera extends Component {
                       RECAPUTURE
                     </Fab>
                   ) : (
-                    <Fab
-                      variant="extended"
-                      color="primary"
-                      aria-label="add"
-                      className={useStyles.margin}
-                      onClick={() => this.capture()}
-                    >
-                      CAPTURE
-                    </Fab>
-                  )}
+                      <Fab
+                        variant="extended"
+                        color="primary"
+                        aria-label="add"
+                        className={useStyles.margin}
+                        onClick={() => this.capture()}
+                      >
+                        CAPTURE
+                      </Fab>
+                    )}
                 </Paper>
               </Grid>
             </div>
@@ -211,12 +186,12 @@ class Camera extends Component {
               <Grid item md={12}>
                 <Paper className="paper">
                   <div className="img-right-wrapper">
-                    {changePlaceholder ? (
+                    {this.state.changePlaceholder ? (
                       <div className="img-right">
-                        {screenshot && (
+                        {this.state.screenshot && (
                           <img
                             padding={10}
-                            src={screenshot}
+                            src={this.state.screenshot}
                             alt="screenshot"
                             height={300}
                             width={400}
@@ -225,15 +200,15 @@ class Camera extends Component {
                         )}
                       </div>
                     ) : (
-                      <div className="img-right">
-                        <img
-                          src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
-                          height={300}
-                          width={400}
-                          alt="placeholder"
-                        ></img>
-                      </div>
-                    )}
+                        <div className="img-right">
+                          <img
+                            src="https://www.thevision.no/wp-content/uploads/woocommerce-placeholder-400x300.png"
+                            height={300}
+                            width={400}
+                            alt="placeholder"
+                          ></img>
+                        </div>
+                      )}
                   </div>
 
                   {this.state.timeval > 1000 ? (
@@ -249,47 +224,49 @@ class Camera extends Component {
                       </Fab>
                     </RouterLink>
                   ) : (
-                    <Fab
-                      variant="extended"
-                      color="primary"
-                      aria-label="add"
-                      className=""
-                      onClick={() => timechange()}
-                    >
-                      UPLOAD
-                    </Fab>
-                  )}
+                      <Fab
+                        variant="extended"
+                        color="primary"
+                        aria-label="add"
+                        className=""
+                        onClick={() => { timechange(); this.handleUpload(); }}
+                      >
+                        UPLOAD
+                      </Fab>
+                    )}
                 </Paper>
               </Grid>
             </div>
           </div>
         </div>
 
-        {this.state.webcamopen ? (
-          <Fab
-            variant="extended"
-            color="warning"
-            aria-label="add"
-            className={useStyles.margin}
-            onClick={() => {
-              this.webcamoff();
-            }}
-          >
-            webcam off
-          </Fab>
-        ) : (
-          <Fab
-            variant="extended"
-            color="error"
-            aria-label="add"
-            className={useStyles.margin}
-            onClick={() => {
-              this.webcamoff();
-            }}
-          >
-            webcam on
-          </Fab>
-        )}
+        {
+          this.state.webcamopen ? (
+            <Fab
+              variant="extended"
+              color="warning"
+              aria-label="add"
+              className={useStyles.margin}
+              onClick={() => {
+                this.webcamoff();
+              }}
+            >
+              WEBCAM OFF
+            </Fab>
+          ) : (
+              <Fab
+                variant="extended"
+                color="error"
+                aria-label="add"
+                className={useStyles.margin}
+                onClick={() => {
+                  this.webcamoff();
+                }}
+              >
+                WEBCAM ON
+              </Fab>
+            )
+        }
 
         <br />
         <br />
@@ -299,7 +276,7 @@ class Camera extends Component {
             <CircularProgress color="primary" size={150} />
           </Backdrop>
         </div>
-      </div>
+      </div >
     );
   }
 }

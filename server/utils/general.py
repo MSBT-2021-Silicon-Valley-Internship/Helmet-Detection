@@ -2,6 +2,7 @@
 
 import glob
 import logging
+import math
 import os
 import platform
 import random
@@ -11,12 +12,10 @@ import time
 from pathlib import Path
 
 import cv2
-import math
 import numpy as np
 import torch
 import torchvision
 import yaml
-
 from utils.google_utils import gsutil_getsize
 from utils.metrics import fitness
 from utils.torch_utils import init_torch_seeds

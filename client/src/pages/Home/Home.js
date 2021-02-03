@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { ClickButton } from "./ClickButton.js";
+//import { ClickButton } from "./ClickButton.js";
 import { HorizontalLabelPositionBelowStepper } from "./Stepper";
 import "./Home.scss";
-import "./ClickButton.scss";
+//import "./ClickButton.scss";
 import Navigation from "../Navigation/Navigation.js";
 
 const Home = () => {
@@ -27,9 +26,9 @@ const Home = () => {
           </Link>
         </div>
         <HorizontalLabelPositionBelowStepper />
-        <ClickButton />
       </div>
     </div>
   );
 };
+
 export default Home;

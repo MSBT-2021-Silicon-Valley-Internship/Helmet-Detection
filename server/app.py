@@ -1,20 +1,13 @@
-from flask import Flask, flash, request, redirect, url_for, session, jsonify, url_for, send_file, make_response
-from storage import insert_calculation, get_calculations
-from upload import uploadImage
-from werkzeug.utils import secure_filename
-import logging
-import datetime
-from flask_cors import CORS, cross_origin
-import base64
-import os, io
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-#from upload import uploader
-
-from flask import Flask, request, session, jsonify
-from werkzeug.utils import secure_filename
+from predict import predict
+from files import upload, download
 
 app = Flask(__name__)
-logger = logging.getLogger('HELLO WORLD')
+CORS(app)
+g_filename = None
+g_result = None
 
 
 @app.route('/')
@@ -22,69 +15,32 @@ def index():
     return "Helmet Detection", 200
 
 
-CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-
- 
-UPLOAD_FOLDER = '/usr/src/app'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+@app.route('/health')
+def health():
+    return '', 200
 
 
+@app.route('/ready')
+def ready():
+    return '', 200
 
-uploadfolder = uploadImage("")
 
-Filename = '/usr/src/app/face3.jpg'
-      
-@app.route('/images', methods=['POST'])
-def fileUpload():
-    target=os.path.join(UPLOAD_FOLDER,'imgfolder')
-    
-    if not os.path.isdir(target):
-        os.mkdir(target)
-    logger.info("welcome to upload`")
+@app.route('/api/upload', methods=['POST'])
+def upload_process():
+    global g_filename, g_result
 
-    #SAVE NAME : DATE
-    now = datetime.datetime.now() # 2015-04-19 12:11:32.669083
-    nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')# 2015-04-19 12:11:32
-
-    # attaching date to name
     file = request.files['file']
-    print(file)
-    file.save(file)
 
-    #filename = "".join([nowDatetime, secure_filename(file.filename)])
-    filename = secure_filename(file.filename)
-    print(filename)
-    file.save(filename)
+    g_filename, filepath = upload(file)
+    g_result = predict(filepath)
 
-    destination = "/".join([target, filename])
-    print(destination)
-    file.save(destination)
-    #upload foldername save
-    uploadfolder.setfoldername(destination)
-
-    #session['uploadFilePath']=filename
-    session['uploadFilePath']=destination
-
-    response={'result': 'ok'}
-    return jsonify(response)
-
-      
-@app.route('/web', methods=['GET'])
-def showimage():
-    byte_io = io.BytesIO()
-    byte_io.write(Filename)
-    byte_io.seek(0)
-    response = make_response(send_file(byte_io,mimetype='image/jpeg'))
-    response.headers['Content-Transfer-Encoding']='base64'
-    return response
-    
+    return jsonify({'Response': 'Successfully upload and predict'}), 200
 
 
+@app.route('/api/download', methods=['GET'])
+def download_process():
+    global g_filename, g_result
 
-def predict():
-    """ Return JSON serializable output from the model """
-    payload = request.args
-    detector = PythonPredictor("")
-    return detector.predict(payload)
+    img = download(g_filename)
+
+    return jsonify({'Result': g_result, "imgSrc": img}), 200

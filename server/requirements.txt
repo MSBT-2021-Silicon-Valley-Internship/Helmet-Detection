@@ -1,7 +1,4 @@
 Flask
-gevent
-psycopg2-binary
-sqlalchemy
 Cython
 matplotlib
 numpy
@@ -17,3 +14,4 @@ requests
 werkzeug
 datetime
 flask-cors
+PyQt5
