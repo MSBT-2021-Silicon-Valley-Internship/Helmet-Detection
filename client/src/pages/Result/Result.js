@@ -86,7 +86,7 @@ class Result extends Component {
           {this.state.isSuccess ? (
             <Alert className={useStyles.alert} severity="success">
               <AlertTitle>Success</AlertTitle>
-              헬멧 인식에 성공했습니다! —{" "}
+              헬멧 인식에 <b>성공</b>했습니다! —{" "}
               <Link to="/">
                 <strong>Home으로 돌아가기</strong>
               </Link>
@@ -94,7 +94,7 @@ class Result extends Component {
           ) : (
             <Alert className={useStyles.alert} severity="error">
               <AlertTitle>FAIL</AlertTitle>
-              헬멧 인식에 실패했습니다! —{" "}
+              헬멧 인식에 <b>실패</b>했습니다! —{" "}
               <Link to="/">
                 <strong>Home으로 돌아가기</strong>
               </Link>

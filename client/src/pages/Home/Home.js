@@ -20,13 +20,13 @@ const Home = () => {
           <h1>Helmet Detection AI</h1>
           <h2>Be aware of Safety!</h2>
         </div>
-        <HorizontalLabelPositionBelowStepper />
+
         <div id="start-button">
           <Link to="/camera">
             <button className="start-button">START!</button>
           </Link>
         </div>
-
+        <HorizontalLabelPositionBelowStepper />
         <ClickButton />
       </div>
     </div>
