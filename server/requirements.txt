@@ -1,7 +1,4 @@
 Flask
-gevent
-psycopg2-binary
-sqlalchemy
 Cython
 matplotlib
 numpy
