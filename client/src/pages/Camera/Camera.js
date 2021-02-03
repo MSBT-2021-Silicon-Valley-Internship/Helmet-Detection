@@ -1,28 +1,22 @@
 import React, { Component } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Webcam from "react-webcam";
-import ReactJson from "react-json-view";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 
-function toScreenshot(e) {
-  e.target.setAttribute("src", "https://source.unsplash.com/LYK3ksSQyeo");
-  e.target.setAttribute("alt", "screenshot");
-}
 
 class Camera extends Component {
   constructor(props) {
     super(props);
     this.state = {
       screenshot: null,
-      result: null,
-      image: null,
-      image2: null,
       changePlaceholder: false,
     };
+
+    this.handleUpload = this.handleUpload.bind(this);
   }
 
   setRef = (webcam) => {
@@ -34,68 +28,43 @@ class Camera extends Component {
     this.setState({ screenshot: imageSrc, changePlaceholder: true });
   };
 
-  uploadImage = (image) => {
-    const url = "http://localhost:8000/images";
+  handleUpload = (event) => {
+    event.preventDefault();
+
+    const file = this.dataURItoBlob(this.state.screenshot);
     const data = new FormData();
+    data.append('file', file, 'face.png')
 
-    const imageSrc = this.webcam.getScreenshot();
-
-    fetch(imageSrc)
-      .then((res) => res.blob())
-      .then((blob) => {
-        data.append("file", blob, "face3.jpg");
-
-        const options = {
-          method: "post",
-          body: data,
-        };
-
-        fetch(url, options)
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            this.setState({
-              result: res,
-            });
-          });
-      });
+    fetch('http://localhost:8000/api/upload', {
+      method: 'POST',
+      body: data
+    }
+    ).then((response) => {
+      if (response.status === 200) {
+        response.json().then(
+          data => console.log(data['Response'])
+        )
+      }
+    }).catch((error) => {
+      console.log('Error in upload', error)
+    })
   };
 
-  showImage = () => {
-    const url = "http://localhost:8000/web";
+  dataURItoBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
-    fetch(url)
-      .then((response) => {
-        console.log(response);
-        return response.blob();
-      })
-      .then((blob) => {
-        console.log(blob);
-        var reader = new FileReader();
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
 
-        reader.onload = function () {
-          var base64data = reader.result;
-          console.log(base64data);
-        };
-        reader.readAsDataURL(blob);
-        this.setState({
-          image: reader,
-          image2: reader.result,
-        });
-        console.log(reader);
-        console.log(reader.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  toScreenshot = () => {
-    this.setState((state) => ({ open: !state.open }));
-  };
+    return new Blob([ab], { type: mimeString });
+  }
 
   render() {
-    const { screenshot, result, image, image2, changePlaceholder } = this.state;
+    const { screenshot, changePlaceholder } = this.state;
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -146,15 +115,13 @@ class Camera extends Component {
           </Grid>
           <br></br>
           <br></br>
-          <Grid item md="auto">
+          <Grid item md={12}>
             <Paper className={useStyles.paper}>
               <div>
                 {changePlaceholder ? (
                   <div>
                     {screenshot && (
                       <img
-                        onClick={toScreenshot}
-                        padding={10}
                         src={screenshot}
                         alt="screenshot"
                         height={400}
@@ -163,14 +130,13 @@ class Camera extends Component {
                     )}
                   </div>
                 ) : (
-                  <img
-                    src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-                    height={400}
-                    width={400}
-                    margin={50}
-                    alt="placeholder"
-                  ></img>
-                )}
+                    <img
+                      src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
+                      height={400}
+                      width={400}
+                      alt="placeholder"
+                    ></img>
+                  )}
               </div>
               <RouterLink to="/result">
                 <Fab
@@ -178,7 +144,7 @@ class Camera extends Component {
                   color="secondary"
                   aria-label="add"
                   className={useStyles.margin}
-                  onClick={() => this.uploadImage()}
+                  onClick={(event) => this.handleUpload(event)}
                 >
                   Upload
                 </Fab>
@@ -186,13 +152,6 @@ class Camera extends Component {
             </Paper>
           </Grid>
         </Container>
-
-        <div>
-          <div>
-            <h2>Result</h2>
-            {result && <ReactJson src={result} />}
-          </div>
-        </div>
       </center>
     );
   }

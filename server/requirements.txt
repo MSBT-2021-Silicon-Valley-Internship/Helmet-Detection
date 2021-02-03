@@ -17,3 +17,4 @@ requests
 werkzeug
 datetime
 flask-cors
+PyQt5

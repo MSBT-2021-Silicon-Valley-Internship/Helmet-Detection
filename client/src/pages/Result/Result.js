@@ -2,48 +2,46 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import Fab from "@material-ui/core/Fab";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import "./Result.css";
 
 class Result extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fetchInProgress: true,
       result: null,
-      isSuccess: true,
-      imgSrc: "",
+      imgSrc: null,
     };
+
+    this.handleDownload = this.handleDownload.bind(this);
+  }
+
+  handleDownload = () => {
+    fetch('http://localhost:8000/api/download', {
+      method: 'GET'
+    }
+    ).then(response => {
+      if (response.status === 200) {
+        (response.json()).then((data) => {
+          const image = data['imgSrc']
+          const imgSrc = 'data:image/png;base64,' + image
+
+          this.setState({ fetchInProgress: false, result: data['Result'], imgSrc: imgSrc })
+        })
+      }
+    }).catch((error) => {
+      console.log("Error in download", error)
+    })
+  };
+
+  componentDidMount() {
+    this.handleDownload();
   }
 
   render() {
-    const { result, imgSrc } = this.state;
-
-    const params = this.props.match.params.screenshot;
-    console.log(this.props.match);
-    console.log(this.props.match.path);
-    console.log(this.props.match.url);
-    console.log(this.props.match.params);
-    console.log(this.props.match.params.screenshot);
-    console.log(params);
-
-    //fetch get json example
-    const testChange = () => {
-      this.setState({ isSuccess: !this.state.isSuccess });
-    };
-
-    //json result
-    const jsonInput = () => {
-      const url = "http://localhost:8000/web";
-      fetch(url)
-        .then((res) => res.json())
-        .then((res) => res.body)
-        .then((body) => body.confidence)
-        .then((confidence) => {});
-    };
-
     const useStyles = makeStyles((theme) => ({
       root: {
         flexGrow: 1,
@@ -74,17 +72,21 @@ class Result extends Component {
         className={useStyles.root}
       >
         <h1>Result</h1>
-        <Paper className={useStyles.paper} elevation={3}>
-          <img
-            src="https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png"
-            height={400}
-            width={400}
-            alt="placeholder"
-          ></img>
-        </Paper>
+        {this.state.fetchInProgress ? (
+          <CircularProgress />
+        ) : (
+            <Paper className={useStyles.paper} elevation={3}>
+              <img
+                src={this.state.imgSrc}
+                height={400}
+                width={400}
+                alt="placeholder"
+              ></img>
+            </Paper>
+          )}
         <br></br>
         <br></br>
-        {this.state.isSuccess ? (
+        {this.state.result === "True" ? (
           <Alert className={useStyles.alert} severity="info">
             <AlertTitle>SUCCESS</AlertTitle>
             헬멧 인식에 성공했습니다! —{" "}
@@ -93,17 +95,14 @@ class Result extends Component {
             </Link>
           </Alert>
         ) : (
-          <Alert className={useStyles.alert} severity="error">
-            <AlertTitle>FAIL</AlertTitle>
+            <Alert className={useStyles.alert} severity="error">
+              <AlertTitle>FAIL</AlertTitle>
             헬멧 인식에 실패했습니다! —{" "}
-            <Link to="/">
-              <strong>Home으로 돌아가기</strong>
-            </Link>
-          </Alert>
-        )}
-        <Button onClick={testChange} color="primary">
-          SUCCESS/FAIL TEST
-        </Button>
+              <Link to="/">
+                <strong>Home으로 돌아가기</strong>
+              </Link>
+            </Alert>
+          )}
       </Container>
     );
   }
