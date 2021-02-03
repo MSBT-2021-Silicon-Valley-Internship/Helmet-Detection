@@ -48,9 +48,16 @@
 
 .back-drop {
   position: relative;
+  z-index: 2;
 }
 .paper {
+  position: relative;
+  z-index: 1;
   width: 400px;
   height: 500px;
 }
 
+.paper1{
+  position: relative;
+  z-index: 1;
+}
