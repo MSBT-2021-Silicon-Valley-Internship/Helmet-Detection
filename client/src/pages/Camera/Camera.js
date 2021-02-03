@@ -105,6 +105,7 @@ class Camera extends Component {
   reCapturing = () => {
     this.setState({
       iscaptured: false,
+      timeval: 0,
       changePlaceholder: !this.state.changePlaceholder,
     });
   };
@@ -113,30 +114,12 @@ class Camera extends Component {
     const { screenshot, result, image, image2, changePlaceholder } = this.state;
 
     const useStyles = makeStyles((theme) => ({
-      root: {
-        flexGrow: 1,
-      },
-      container: {
-        display: "grid",
-        gridTemplateColumns: "repeat(12, 1fr)",
-        gridGap: theme.spacing(4),
-        justifyContent: "center",
-      },
+      root: {},
+      container: {},
 
-      paper: {
-        padding: theme.spacing(1),
-        margin: theme.spacing(5),
-        width: theme.spacing(20),
-        height: theme.spacing(20),
-        elevation: 3,
-        color: theme.palette.text.secondary,
-        whiteSpace: "nowrap",
-      },
-      divider: {
-        margin: theme.spacing(2, 0),
-      },
+      paper: {},
+      divider: {},
       backdrop: {
-        zIndex: theme.zIndex.drawer + 1,
         color: "#fff",
       },
     }));
@@ -155,7 +138,7 @@ class Camera extends Component {
 
           if (this.state.timeval > 1000) {
             handleClose();
-            return 0;
+            return this.props.history.push("/result");
           } else {
             timerId = setTimeout(tick.bind(this), 20);
             handleToggle();
@@ -181,7 +164,6 @@ class Camera extends Component {
             <br></br>
             카메라를 끄려면 <b>WEBCAM OFF</b> 버튼을 누르세요.
           </h3>
-
           <div className="box-container">
             <div className="box-left">
               <Grid item md={12}>
@@ -202,7 +184,7 @@ class Camera extends Component {
                   {this.state.iscaptured ? (
                     <Fab
                       variant="extended"
-                      color="primary"
+                      color="secondary"
                       aria-label="add"
                       className={useStyles.margin}
                       onClick={() => this.reCapturing()}
@@ -239,7 +221,6 @@ class Camera extends Component {
                             height={300}
                             width={400}
                             margin={50}
-                            alt="placeholder"
                           ></img>
                         )}
                       </div>
@@ -264,13 +245,13 @@ class Camera extends Component {
                         className={useStyles.margin}
                         onClick={() => timechange()}
                       >
-                        UPLOAD
+                        RESULT
                       </Fab>
                     </RouterLink>
                   ) : (
                     <Fab
                       variant="extended"
-                      color="secondary"
+                      color="primary"
                       aria-label="add"
                       className=""
                       onClick={() => timechange()}
@@ -287,7 +268,7 @@ class Camera extends Component {
         {this.state.webcamopen ? (
           <Fab
             variant="extended"
-            color="secondary"
+            color="warning"
             aria-label="add"
             className={useStyles.margin}
             onClick={() => {
@@ -299,7 +280,7 @@ class Camera extends Component {
         ) : (
           <Fab
             variant="extended"
-            color="primary"
+            color="error"
             aria-label="add"
             className={useStyles.margin}
             onClick={() => {
@@ -313,13 +294,11 @@ class Camera extends Component {
         <br />
         <br />
         <br />
-        <Backdrop
-          className="back-drop"
-          open={this.state.open}
-          onClick={handleClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <div className="back-drop">
+          <Backdrop open={this.state.open} onClick={handleClose}>
+            <CircularProgress color="primary" size={150} />
+          </Backdrop>
+        </div>
       </div>
     );
   }
