@@ -105,6 +105,7 @@ class Camera extends Component {
   reCapturing = () => {
     this.setState({
       iscaptured: false,
+      timeval:0,
       changePlaceholder: !this.state.changePlaceholder,
     });
   };
@@ -114,29 +115,15 @@ class Camera extends Component {
 
     const useStyles = makeStyles((theme) => ({
       root: {
-        flexGrow: 1,
       },
       container: {
-        display: "grid",
-        gridTemplateColumns: "repeat(12, 1fr)",
-        gridGap: theme.spacing(4),
-        justifyContent: "center",
       },
 
       paper: {
-        padding: theme.spacing(1),
-        margin: theme.spacing(5),
-        width: theme.spacing(20),
-        height: theme.spacing(20),
-        elevation: 3,
-        color: theme.palette.text.secondary,
-        whiteSpace: "nowrap",
       },
       divider: {
-        margin: theme.spacing(2, 0),
       },
       backdrop: {
-        zIndex: theme.zIndex.drawer + 1,
         color: "#fff",
       },
     }));
@@ -181,7 +168,6 @@ class Camera extends Component {
             <br></br>
             카메라를 끄려면 <b>WEBCAM OFF</b> 버튼을 누르세요.
           </h3>
-
           <div className="box-container">
             <div className="box-left">
               <Grid item md={12}>
@@ -202,7 +188,7 @@ class Camera extends Component {
                   {this.state.iscaptured ? (
                     <Fab
                       variant="extended"
-                      color="primary"
+                      color="secondary"
                       aria-label="add"
                       className={useStyles.margin}
                       onClick={() => this.reCapturing()}
@@ -264,13 +250,13 @@ class Camera extends Component {
                         className={useStyles.margin}
                         onClick={() => timechange()}
                       >
-                        UPLOAD
+                        RESULT
                       </Fab>
                     </RouterLink>
                   ) : (
                     <Fab
                       variant="extended"
-                      color="secondary"
+                      color="primary"
                       aria-label="add"
                       className=""
                       onClick={() => timechange()}
@@ -282,7 +268,7 @@ class Camera extends Component {
               </Grid>
             </div>
           </div>
-        </div>
+        </div>  
 
         {this.state.webcamopen ? (
           <Fab
@@ -313,13 +299,14 @@ class Camera extends Component {
         <br />
         <br />
         <br />
+        <div className = 'back-drop'>
         <Backdrop
-          className="back-drop"
           open={this.state.open}
           onClick={handleClose}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
+        </div>
       </div>
     );
   }
