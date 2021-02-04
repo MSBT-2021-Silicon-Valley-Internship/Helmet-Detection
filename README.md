@@ -127,6 +127,8 @@ If a user captures a picture using a webcam, he or she can recognize whether he 
 ```bash
 |-- client
     |
+    |-- build // npm build
+    |
     |-- src
     |   |   |-- client
     |   |   |   |-- Root.js
@@ -147,6 +149,7 @@ If a user captures a picture using a webcam, he or she can recognize whether he 
     |
     |-- Dockerfile
     |-- package.json // npm install
+    |-- container_server.conf // NGINX configuration
 
 |-- server
     |
