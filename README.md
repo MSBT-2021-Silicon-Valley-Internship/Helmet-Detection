@@ -16,15 +16,46 @@ If a user captures a picture using a webcam, he or she can recognize whether he 
 
 ## Content
 
+- [0. Preview](#preview)
 - [1. Technology stack](#technology-stack)
-- [2. Quick Start - Local](#quick-start-local)
-- [3. Quick Start - Docker](#quick-start-docker)
-- [4. Deployment - Kubernetes](#deployment-kubernetes)
-- [5. References](#references)
+- [2. Quick Start - Docker](#quick-start-docker)
+- [3. References](#references)
+
+---
+
+## Preview
+
+![Homepage](https://user-images.githubusercontent.com/48934522/106851463-a2412400-66f9-11eb-9b36-5db0467f214a.PNG)
+
+### Demo
+
+- Success
+  ![헬멧인식_성공_-_online-video-cutter com_](https://user-images.githubusercontent.com/48934522/106852148-ed0f6b80-66fa-11eb-8c80-8f39244acc79.gif)
+
+- Fail
+  ![헬멧인식_실패_-_online-video-cutter com_](https://user-images.githubusercontent.com/48934522/106852149-eda80200-66fa-11eb-8b8d-455e9eb7e9cc.gif)
+
+### Function
+
+- App Bar
+  ![appbar_1](https://user-images.githubusercontent.com/48934522/106852151-ee409880-66fa-11eb-8268-0bdb8cc75aa5.gif)
+
+- Stepper
+  ![stepper_1](https://user-images.githubusercontent.com/48934522/106852138-eb45a800-66fa-11eb-898a-5f5d8423a43f.gif)
+
+- Webcam ON,OFF
+  ![WEBCAM-ON_OFF_1](https://user-images.githubusercontent.com/48934522/106852142-ec76d500-66fa-11eb-9b2f-581a1709c0d2.gif)
+
+- Recapture
+  ![Recapture](https://user-images.githubusercontent.com/48934522/106852152-eed92f00-66fa-11eb-930a-7481badb9236.gif)
 
 ---
 
 ## Technology stack
+
+### Architecture
+
+![image](https://user-images.githubusercontent.com/48934522/106883289-252aa480-6723-11eb-8ce0-3b44fb7c7b9b.png)
 
 ### AI
 
@@ -36,22 +67,24 @@ If a user captures a picture using a webcam, he or she can recognize whether he 
 ### Frontend
 
 - ![title](https://img.shields.io/badge/-React-61DAFB?&logo=react&logoColor=white)
+- ![title](https://img.shields.io/badge/-Material_UI-0081CB?&logo=Material-UI&logoColor=white)
+- ![title](https://img.shields.io/badge/-Sass-CC6699?&logo=Sass&logoColor=white)
 
 ### Backend
 
 - ![title](https://img.shields.io/badge/-Flask-000000?&logo=flask&logoColor=white)
-- ![title](https://img.shields.io/badge/-Google_Cloud-4285F4?&logo=Google-Cloud&logoColor=white)
-- ![title](https://img.shields.io/badge/-PostgreSQL-336791?&logo=postgreSQL&logoColor=white)
+- WSGI
 
 ### ETC
 
 - ![title](https://img.shields.io/badge/-Github-181717?&logo=Github&logoColor=white)
 - ![title](https://img.shields.io/badge/-Slack-4A154B?&logo=Slack&logoColor=white)
 - ![title](https://img.shields.io/badge/-Notion-000000?&logo=notion&logoColor=white)
+- ![title](https://img.shields.io/badge/-Swagger-85EA2D?&logo=Swagger&logoColor=white)
 
 ---
 
-## Quick Start - Local
+## Quick Start - Docker
 
 ### 1-1. Environment Setting
 
@@ -62,81 +95,18 @@ If a user captures a picture using a webcam, he or she can recognize whether he 
   cd Helmet-Detection
   ```
 
-- python venv
+- Frontend : React
 
   ```bash
-  cd server
-  python3 -m venv venv
-  source venv/bin/activate
-  (venv)
-  ```
-
-- install requirements.txt
-
-  ```bash
-  (venv) pip install -r requirements.txt
-  ```
-
-- create config.ini (PostgresSQL (SQLAlchemy) - Google SQL Instance)
-
-  ```bash
-  # in server folder
-
-  [users_images_database]
-  user = <username>
-  password = <password>
-  dbname = users_images
-  host = <public-ip-address>
-  ```
-
-### 1-2. Backend : Flask
-
-- run </br>
-  <localhost:8000>
-
-  ```bash
-  (venv) cd server
-  (venv) python run.py
-  ```
-
-### 1-3. Frontend : React
-
-- npm install
-
-  ```bash
+  # npm install
   cd client
   npm i
-  ```
 
-- npm start </br>
-  <localhost:8080>
-
-  ```bash
-  npm start
-  ```
-
-- npm build
-
-  ```bash
+  # npm build
   npm run build
   ```
 
-- nginx
-
-  ```bash
-  # Note: you might need to add sudo before these commands
-
-  # start nginx
-  nginx
-  # stop nginx
-  nginx -s stop
-  ```
-
----
-
-## Quick Start - Docker
-
-### 1-1. Docker compose
+### 1-2. Docker compose
 
 - docker-compose
 
@@ -146,41 +116,58 @@ If a user captures a picture using a webcam, he or she can recognize whether he 
   docker-compose down
   ```
 
----
-
-## Deployment - Kubernetes
-
-### 1-1. GCP's Cloud SDK
-
-- install GCP's Cloud SDK
-  <https://cloud.google.com/sdk/docs/quickstart>
-
-- initialize cloud SDK
-
-  ```bash
-  # view to see if your email is authenticated
-  gcloud auth list
-  # if not authenticated login to your account
-  gcloud auth login
-  ```
-
-- generate application's Services
-
-  ```bash
-  gcloud builds submit --project=<project_name> --config cloudbuild.yaml
-  ```
-
-### 1-2. GCP's Container Registry
-
-- push docker-images
-
-  ```bash
-  docker build -t gcr.io/<project-id>/<flask-image-name> .
-  docker build -t gcr.io/<project-id>/<nginx-image-name> ./react-app
-  docker push gcr.io/<project-id>/<flask-image-name>
-  docker push gcr.io/<project-id>/<nginx-image-name>
-  ```
+- Checkout web service at http://localhost:8080
 
 ---
 
 ## References
+
+### Structure
+
+```bash
+|-- client
+    |
+    |-- src
+    |   |   |-- client
+    |   |   |   |-- Root.js
+    |   |   |
+    |   |   |-- pages
+    |   |   |   |-- Camera // camera page
+    |   |   |   |-- Home // home page, stepper
+    |   |   |   |-- Navigation // app bar
+    |   |   |   |-- Result // result page
+    |   |   |   |
+    |   |   |   |-- index.js
+    |   |   |
+    |   |   |-- shared
+    |   |   |   |-- App.js
+    |   |   |
+    |   |   |-- index.js
+    |   |   |-- serviceWorker.js
+    |
+    |-- Dockerfile
+    |-- package.json // npm install
+
+|-- server
+    |
+    |-- model // YOLO v5
+    |-- utils // YOLO v5
+    |
+    |-- app.py // Flask server
+    |-- run.py // WSGI server
+    |
+    |-- files.py // File upload and download
+    |-- predict.py // Predict input image
+    |-- yolov5s_helmet.pt // Pretrained Pytorch weights
+    |
+    |-- requirements.txt
+    |-- Dockerfile
+```
+
+### YOLO v5
+
+https://github.com/ultralytics/yolov5
+
+### Swagger
+
+https://app.swaggerhub.com/apis-docs/MSBT_2021/Helmet-Detection/1.0.0
